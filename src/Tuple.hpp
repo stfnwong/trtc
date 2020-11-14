@@ -38,6 +38,9 @@ struct Tuple
         Tuple operator+(const Tuple& that) const;
         Tuple operator-(const Tuple& that) const;
 
+        // helpers 
+        bool point(void) const;
+        bool vector(void) const;
         // string 
         std::string toString(void) const;
         // TODO: serialize?

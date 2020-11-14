@@ -3,6 +3,7 @@
  * A ordered set of numbers 
  */
 
+#include <cmath>
 #include <sstream>
 #include "Common.hpp"
 #include "Tuple.hpp"
@@ -83,7 +84,7 @@ Tuple Tuple::operator+(const Tuple& that) const
             this->x + that.x,
             this->y + that.y,
             this->z + that.z,
-            (this->w == 1.0 && that.w == 1.0) ? 1.0 : this->w + that.w
+            std::fmin(1.0, this->w + that.w)
             );
 }
 
@@ -93,8 +94,24 @@ Tuple Tuple::operator-(const Tuple& that) const
             this->x - that.x,
             this->y - that.y,
             this->z - that.z,
-            (this->w == 1.0 && that.w == 1.0) ? 1.0 : this->w - that.w
+            (this->w == that.w) ? this->w : this->w - that.w
             );
+}
+
+/*
+ * point()
+ */
+bool Tuple::point(void) const
+{
+    return this->w == 1.0 ? true : false;
+}
+
+/*
+ * vector()
+ */
+bool Tuple::vector(void) const
+{
+    return this->w == 0.0 ? true : false;
 }
 
 /*
@@ -120,10 +137,10 @@ std::string Tuple::toString(void) const
 
 Tuple create_vector(float x, float y, float z)
 {
-    return Tuple(x, y, z, 1.0);
+    return Tuple(x, y, z, 0.0);
 }
 
 Tuple create_point(float x, float y, float z)
 {
-    return Tuple(x, y, z, 0.0);
+    return Tuple(x, y, z, 1.0);
 }
