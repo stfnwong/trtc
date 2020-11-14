@@ -5,10 +5,9 @@
 #define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
+#include <cmath>
 #include <iostream> 
-#include <iomanip>
 #include <vector>
-#include <string>
 
 #include "Common.hpp"
 #include "Tuple.hpp"
@@ -139,6 +138,9 @@ TEST_CASE("test_point_negate", "infra")
     Tuple exp_result = create_point(-1, -2, -3);
 
     REQUIRE(-tst_point == exp_result);
+    Tuple zero_point = create_point(0, 0, 0);
+    Tuple result = zero_point - tst_point;
+    REQUIRE(result == exp_result);
 }
 
 TEST_CASE("test_vector_negate", "infra")
@@ -147,4 +149,112 @@ TEST_CASE("test_vector_negate", "infra")
     Tuple exp_result = create_vector(-1, -2, -3);
 
     REQUIRE(-tst_vector == exp_result);
+
+    Tuple zero_vector = create_vector(0, 0, 0);
+    Tuple result = zero_vector - tst_vector;
+    REQUIRE(result == exp_result);
+}
+
+// Multiply/Divide
+TEST_CASE("test_point_scalar_multiply", "infra")
+{
+    Tuple tst_point = create_point(2, 4, 6);
+    Tuple exp_result = create_point(4, 8, 12);
+
+    Tuple result = tst_point * 2;
+    std::cout << "result : " << result.toString() << std::endl;
+    REQUIRE(result == exp_result);
+}
+
+TEST_CASE("test_point_scalar_divide", "infra")
+{
+    Tuple tst_point = create_point(2, 4, 6);
+    Tuple exp_result = create_point(1, 2, 3);
+
+    Tuple result = tst_point / 2;
+    std::cout << "result : " << result.toString() << std::endl;
+    REQUIRE(result == exp_result);
+}
+
+TEST_CASE("test_vector_scalar_multiply", "infra")
+{
+    Tuple tst_vector = create_vector(2, 4, 6);
+    Tuple exp_result = create_vector(1, 2, 3);
+
+    Tuple result = tst_vector / 2;
+    std::cout << "result : " << result.toString() << std::endl;
+    REQUIRE(result == exp_result);
+}
+
+TEST_CASE("test_vector_scalar_divide", "infra")
+{
+    Tuple tst_vector = create_vector(2, 4, 6);
+    Tuple exp_result = create_vector(1, 2, 3);
+
+    Tuple result = tst_vector / 2;
+    std::cout << "result : " << result.toString() << std::endl;
+    REQUIRE(result == exp_result);
+}
+
+TEST_CASE("test_tuple_magnitude", "infra")
+{
+    const std::vector<Tuple> inp_tuples = { 
+        Tuple(1, 0, 0),
+        Tuple(0, 1, 0),
+        Tuple(0, 0, 1),
+        Tuple(1, 2, 3),
+        Tuple(-1, -2, -3)
+    };
+    const std::vector<float> exp_results = {
+        1,                  // (1, 0, 0)
+        1,                  // (0, 1, 0)
+        1,                  // (0, 0, 1)
+        std::sqrtf(14),      // (1, 2, 3)
+        std::sqrtf(14)       // (-1, -2, -3)
+    };
+
+    for(unsigned int idx = 0; idx < inp_tuples.size(); ++idx)
+        REQUIRE(inp_tuples[idx].mag() == exp_results[idx]);
+}
+
+TEST_CASE("test_tuple_norm", "infra")
+{
+    const std::vector<Tuple> inp_tuples = {
+        Tuple(4, 0, 0),
+        Tuple(1, 2, 3)
+    };
+    const std::vector<Tuple> exp_tuples = {
+        Tuple(1, 0, 0),
+        Tuple(1 / std::sqrt(14), 2 / std::sqrt(14), 3 / std::sqrt(14))
+    };
+    const std::vector<float> exp_mags = {
+        1,
+        1
+    };
+
+    for(unsigned int idx = 0; idx < inp_tuples.size(); ++idx)
+    {
+        REQUIRE(inp_tuples[idx].norm() == exp_tuples[idx]);
+        REQUIRE(equal(1.0, inp_tuples[idx].norm().mag()));
+    }
+}
+
+TEST_CASE("test_vector_dot", "infra")
+{
+    Tuple v1 = create_vector(1, 2, 3);
+    Tuple v2 = create_vector(2, 3, 4);
+    float exp_result = 20.0;
+
+    float result = v1.dot(v2);
+
+    REQUIRE(result == exp_result);
+}
+
+TEST_CASE("test_vector_cross", "infra")
+{
+    Tuple v1 = create_vector(1, 2, 3);
+    Tuple v2 = create_vector(2, 3, 4);
+
+    REQUIRE(v1.cross(v2) == create_vector(-1, 2, -1));
+    REQUIRE(v2.cross(v1) == create_vector(1, -2, 1));
 }

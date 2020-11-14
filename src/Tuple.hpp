@@ -41,6 +41,18 @@ struct Tuple
         // regular arithmetic operators
         Tuple operator+(const Tuple& that) const;
         Tuple operator-(const Tuple& that) const;
+        // scalar multiply
+        Tuple operator*(float that) const;
+        // scalar divide
+        Tuple operator/(float that) const;
+
+        float dot(const Tuple& that) const;
+        Tuple cross(const Tuple& that) const;
+
+        // magnitude/length
+        float mag(void) const;
+        // normalization
+        Tuple norm(void) const;
 
         // helpers 
         bool point(void) const;
@@ -56,6 +68,11 @@ struct Tuple
  */
 Tuple create_vector(float x, float y, float z);
 Tuple create_point(float x, float y, float z);
+
+// Dot and Cross wrappers 
+
+float dot(const Tuple& a, const Tuple& b);
+Tuple cross(const Tuple& a, const Tuple& b);
 
 
 #endif /*__TUPLE_HPP*/

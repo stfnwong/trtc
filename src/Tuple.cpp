@@ -110,6 +110,78 @@ Tuple Tuple::operator-(const Tuple& that) const
 }
 
 /*
+ * scalar multiply
+ */
+Tuple Tuple::operator*(float that) const
+{
+    return Tuple(
+            this->x * that,
+            this->y * that,
+            this->z * that,
+            this->w
+            );
+}
+
+Tuple Tuple::operator/(float that) const
+{
+    return Tuple(
+            this->x / that,
+            this->y / that,
+            this->z / that,
+            this->w
+            );
+}
+
+/*
+ * Products
+ */
+float Tuple::dot(const Tuple& that) const
+{
+    return (this->x * that.x) +
+           (this->y * that.y) + 
+           (this->z * that.z) + 
+           (this->w * that.w);
+}
+/*
+ * cross()
+ */
+Tuple Tuple::cross(const Tuple& that) const
+{
+    return Tuple(
+            this->y * that.z - this->z * that.y,
+            this->z * that.x - this->x * that.z,
+            this->x * that.y - this->y * that.x,
+            0.0
+            );
+}
+
+/*
+ * mag()
+ */
+float Tuple::mag(void) const
+{
+    return std::sqrtf(
+            this->x * this->x + 
+            this->y * this->y +
+            this->z * this->z
+            );
+}
+
+/*
+ * norm()
+ */
+Tuple Tuple::norm(void) const
+{
+    float len = this->mag();
+    return Tuple(
+            this->x / len,
+            this->y / len,
+            this->z / len,
+            this->w
+            );
+}
+
+/*
  * point()
  */
 bool Tuple::point(void) const
@@ -154,4 +226,16 @@ Tuple create_vector(float x, float y, float z)
 Tuple create_point(float x, float y, float z)
 {
     return Tuple(x, y, z, 1.0);
+}
+
+
+
+float dot(const Tuple& a, const Tuple& b)
+{
+    return a.dot(b);
+}
+
+Tuple cross(const Tuple& a, const Tuple& b)
+{
+    return a.cross(b);
 }
