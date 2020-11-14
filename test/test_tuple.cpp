@@ -162,7 +162,6 @@ TEST_CASE("test_point_scalar_multiply", "infra")
     Tuple exp_result = create_point(4, 8, 12);
 
     Tuple result = tst_point * 2;
-    std::cout << "result : " << result.toString() << std::endl;
     REQUIRE(result == exp_result);
 }
 
@@ -172,7 +171,6 @@ TEST_CASE("test_point_scalar_divide", "infra")
     Tuple exp_result = create_point(1, 2, 3);
 
     Tuple result = tst_point / 2;
-    std::cout << "result : " << result.toString() << std::endl;
     REQUIRE(result == exp_result);
 }
 
@@ -182,7 +180,6 @@ TEST_CASE("test_vector_scalar_multiply", "infra")
     Tuple exp_result = create_vector(1, 2, 3);
 
     Tuple result = tst_vector / 2;
-    std::cout << "result : " << result.toString() << std::endl;
     REQUIRE(result == exp_result);
 }
 
@@ -192,7 +189,6 @@ TEST_CASE("test_vector_scalar_divide", "infra")
     Tuple exp_result = create_vector(1, 2, 3);
 
     Tuple result = tst_vector / 2;
-    std::cout << "result : " << result.toString() << std::endl;
     REQUIRE(result == exp_result);
 }
 
@@ -209,8 +205,8 @@ TEST_CASE("test_tuple_magnitude", "infra")
         1,                  // (1, 0, 0)
         1,                  // (0, 1, 0)
         1,                  // (0, 0, 1)
-        std::sqrtf(14),      // (1, 2, 3)
-        std::sqrtf(14)       // (-1, -2, -3)
+        std::sqrtf(14),     // (1, 2, 3)
+        std::sqrtf(14)      // (-1, -2, -3)
     };
 
     for(unsigned int idx = 0; idx < inp_tuples.size(); ++idx)

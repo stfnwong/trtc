@@ -229,7 +229,9 @@ Tuple create_point(float x, float y, float z)
 }
 
 
-
+/*
+ * Products
+ */
 float dot(const Tuple& a, const Tuple& b)
 {
     return a.dot(b);
