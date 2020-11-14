@@ -31,12 +31,22 @@ struct Tuple
         // operators 
         bool operator==(const Tuple& that) const;
         bool operator!=(const Tuple& that) const;
+        // arithmetic + assignment 
+        Tuple& operator+=(const Tuple& that);
+        Tuple& operator-=(const Tuple& that);
+
+        Tuple operator+(const Tuple& that) const;
+        Tuple operator-(const Tuple& that) const;
+
         // string 
         std::string toString(void) const;
         // TODO: serialize?
 };
 
 
+/*
+ * Point and Vector factories
+ */
 Tuple create_vector(float x, float y, float z);
 Tuple create_point(float x, float y, float z);
 
