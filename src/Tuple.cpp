@@ -77,6 +77,17 @@ Tuple& Tuple::operator-=(const Tuple& that)
     return *this;
 }
 
+// unary minus (negation)
+Tuple Tuple::operator-(void) const
+{
+    return Tuple(
+            -this->x,
+            -this->y,
+            -this->z,
+            this->w
+            );
+}
+
 // Arithmetic 
 Tuple Tuple::operator+(const Tuple& that) const
 {

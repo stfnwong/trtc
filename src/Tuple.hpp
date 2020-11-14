@@ -35,6 +35,10 @@ struct Tuple
         Tuple& operator+=(const Tuple& that);
         Tuple& operator-=(const Tuple& that);
 
+        // negation
+        Tuple operator-(void) const;
+
+        // regular arithmetic operators
         Tuple operator+(const Tuple& that) const;
         Tuple operator-(const Tuple& that) const;
 

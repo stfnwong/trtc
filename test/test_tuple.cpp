@@ -131,3 +131,20 @@ TEST_CASE("test_point_subtract_assign", "infra")
     a_point -= b_point;
     REQUIRE(a_point == exp_point);
 }
+
+// Negation
+TEST_CASE("test_point_negate", "infra")
+{
+    Tuple tst_point = create_point(1, 2, 3);
+    Tuple exp_result = create_point(-1, -2, -3);
+
+    REQUIRE(-tst_point == exp_result);
+}
+
+TEST_CASE("test_vector_negate", "infra")
+{
+    Tuple tst_vector = create_vector(1, 2, 3);
+    Tuple exp_result = create_vector(-1, -2, -3);
+
+    REQUIRE(-tst_vector == exp_result);
+}
