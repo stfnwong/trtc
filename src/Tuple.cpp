@@ -160,7 +160,7 @@ Tuple Tuple::cross(const Tuple& that) const
  */
 float Tuple::mag(void) const
 {
-    return std::sqrtf(
+    return std::sqrt(
             this->x * this->x + 
             this->y * this->y +
             this->z * this->z

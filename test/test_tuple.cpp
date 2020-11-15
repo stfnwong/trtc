@@ -205,8 +205,8 @@ TEST_CASE("test_tuple_magnitude", "infra")
         1,                  // (1, 0, 0)
         1,                  // (0, 1, 0)
         1,                  // (0, 0, 1)
-        std::sqrtf(14),     // (1, 2, 3)
-        std::sqrtf(14)      // (-1, -2, -3)
+        std::sqrt(14),     // (1, 2, 3)
+        std::sqrt(14)      // (-1, -2, -3)
     };
 
     for(unsigned int idx = 0; idx < inp_tuples.size(); ++idx)
