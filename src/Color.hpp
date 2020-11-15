@@ -34,6 +34,9 @@ struct Color
         Color operator*(const Color& that) const;
         Color operator*(float) const;
 
+        // Assignment
+        Color& operator=(const Color& that);
+
 
         std::string toString(void) const;
 };

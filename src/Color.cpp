@@ -15,6 +15,12 @@ Color::Color() : r(0.0), g(0.0), b(0.0) {}
 
 Color::Color(float r_new, float g_new, float b_new) : r(r_new), g(g_new), b(b_new) {} 
 
+// copy ctor 
+//Color::Color(const Color& that) : r(that.r), g(that.g), b(that.b) 
+//{
+//    
+//}
+
 
 
 bool Color::operator==(const Color& that) const
@@ -90,6 +96,19 @@ Color Color::operator*(float c) const
             );
 }
 
+/*
+ * Assignment
+ */
+Color& Color::operator=(const Color& that) 
+{
+    if(this != & that)
+    {
+        this->r = that.r;
+        this->g = that.g;
+        this->b = that.b;
+    }
+    return *this;
+}
 
 
 

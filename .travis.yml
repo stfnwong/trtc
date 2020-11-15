@@ -20,3 +20,4 @@ script:
     - make clean && make all
     - ./bin/test/test_tuple
     - ./bin/test/test_color
+    - ./bin/test/test_canvas
