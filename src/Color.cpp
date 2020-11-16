@@ -3,14 +3,18 @@
  * Stuff for blending colors 
  */
 
+#include <algorithm>
 #include <sstream>
+#include <iostream>         // TODO: just for debugging
 #include <iomanip>
 
 #include "Common.hpp"
 #include "Color.hpp"
 
 
-
+/*
+ * ================ COLOR  ================
+ */
 Color::Color() : r(0.0), g(0.0), b(0.0) {} 
 
 Color::Color(float r_new, float g_new, float b_new) : r(r_new), g(g_new), b(b_new) {} 
@@ -111,6 +115,19 @@ Color& Color::operator=(const Color& that)
 }
 
 
+/*
+ * to8ppTuple()
+ */
+std::string Color::to8bppString(void) const
+{
+    std::ostringstream oss;
+
+    oss << col_to_byte(this->r, 256) << " ";
+    oss << col_to_byte(this->g, 256) << " ";
+    oss << col_to_byte(this->b, 256);
+
+    return oss.str();
+}
 
 /*
  * toString()

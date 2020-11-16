@@ -58,3 +58,23 @@ TEST_CASE("test_color_multiply", "infra")
 
     REQUIRE(mult_color == exp_color);
 }
+
+// Conversions 
+TEST_CASE("test_color_8bpp_string", "infra")
+{
+    Color c1(1.0, 0.2, 0.4);
+    Color c2(2.9, 1.0, -0.1);       // ensure clamping 
+    Color c3(-1.0, 0.5, 0.5);
+
+    const std::string c1_exp_8bpp_string = "255 51 102";
+    const std::string c2_exp_8bpp_string = "255 255 0";
+    const std::string c3_exp_8bpp_string = "0 128 128";
+
+    std::string c1_8bpp_string = c1.to8bppString();
+    std::string c2_8bpp_string = c2.to8bppString();
+    std::string c3_8bpp_string = c3.to8bppString();
+
+    REQUIRE(c1_exp_8bpp_string == c1_8bpp_string);
+    REQUIRE(c2_exp_8bpp_string == c2_8bpp_string);
+    REQUIRE(c3_exp_8bpp_string == c3_8bpp_string);
+}

@@ -16,5 +16,15 @@ inline bool equal(float a, float b)
     return (std::fabs(a - b) < COMP_EPSILON) ? true : false;
 }
 
+//inline float fmin(float a, float b)
+//{
+//    return (a < b) ? a : b;
+//}
+//
+//inline float fmax(float a, float b)
+//{
+//    return (a < b) ? b : a;
+//}
+
 
 #endif /*__COMMON_HPP*/
