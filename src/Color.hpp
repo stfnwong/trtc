@@ -32,6 +32,8 @@ struct Color
         Color(const Color& that) = default;
         Color(Color&& that) = default;
 
+        // TODO ; copy assignment operator
+
         bool operator==(const Color& that) const;
         bool operator!=(const Color& that) const;
 

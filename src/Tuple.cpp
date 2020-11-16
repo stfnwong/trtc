@@ -3,8 +3,10 @@
  * A ordered set of numbers 
  */
 
+#include <utility>
 #include <cmath>
 #include <sstream>
+#include <utility>
 #include "Common.hpp"
 #include "Tuple.hpp"
 
@@ -16,6 +18,25 @@ Tuple::Tuple() : x(0.0), y(0.0), z(0.0), w(0.0) {}
 Tuple::Tuple(float x_new, float y_new, float z_new) : x(x_new), y(y_new), z(z_new), w(0.0) {} 
 
 Tuple::Tuple(float x_new, float y_new, float z_new, float w_new) : x(x_new), y(y_new), z(z_new), w(w_new) {} 
+
+/*
+ * copy assignment
+ */
+Tuple& Tuple::operator=(Tuple that) 
+{
+    if(this != &that)
+    {
+        this->x = that.x;
+        this->y = that.y;
+        this->z = that.z;
+        //std::swap(this->x, that.x);
+        //std::swap(this->y, that.y);
+        //std::swap(this->z, that.z);
+        //std::swap(this->w, that.w);
+    }
+
+    return *this;
+}
 
 
 // operators
@@ -196,6 +217,22 @@ bool Tuple::vector(void) const
 {
     return this->w == 0.0 ? true : false;
 }
+
+/*
+ * toPoint()
+ */
+void Tuple::toPoint(void)
+{
+    this->w = 1.0;
+}
+/*
+ * toVector()
+ */
+void Tuple::toVector(void)
+{
+    this->w = 0.0;
+}
+
 
 /*
  * toString()

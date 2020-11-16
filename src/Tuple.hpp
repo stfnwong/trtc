@@ -14,6 +14,8 @@
  */
 // TODO: if it makes sense later this could be templated (to switch from float
 // to double, for instance)
+//
+// TODO: derive Vector and Point subclasses?
 struct Tuple
 {
     float x;
@@ -26,7 +28,9 @@ struct Tuple
         Tuple(float x_new, float y_new, float z_new);
         Tuple(float x_new, float y_new, float z_new, float w_new);
         Tuple(const Tuple& that) = default;
-        Tuple(Tuple&& that) = default;
+
+        // copy assignment (TODO: rule-of-five this class)
+        Tuple& operator=(Tuple that);
 
         // operators 
         bool operator==(const Tuple& that) const;
@@ -57,6 +61,8 @@ struct Tuple
         // helpers 
         bool point(void) const;
         bool vector(void) const;
+        void toPoint(void);
+        void toVector(void);
         // string 
         std::string toString(void) const;
         // TODO: serialize?
