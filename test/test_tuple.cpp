@@ -205,8 +205,8 @@ TEST_CASE("test_tuple_magnitude", "infra")
         1,                  // (1, 0, 0)
         1,                  // (0, 1, 0)
         1,                  // (0, 0, 1)
-        std::sqrtf(14),     // (1, 2, 3)
-        std::sqrtf(14)      // (-1, -2, -3)
+        std::sqrt(static_cast<float>(14.0)),     // (1, 2, 3)
+        std::sqrt(static_cast<float>(14.0))      // (-1, -2, -3)
     };
 
     for(unsigned int idx = 0; idx < inp_tuples.size(); ++idx)
@@ -221,7 +221,9 @@ TEST_CASE("test_tuple_norm", "infra")
     };
     const std::vector<Tuple> exp_tuples = {
         Tuple(1, 0, 0),
-        Tuple(1 / std::sqrt(14), 2 / std::sqrt(14), 3 / std::sqrt(14))
+        Tuple(1 / std::sqrt(static_cast<float>(14.0)), 
+              2 / std::sqrt(static_cast<float>(14.0)), 
+              3 / std::sqrt(static_cast<float>(14.0)))
     };
     const std::vector<float> exp_mags = {
         1,
