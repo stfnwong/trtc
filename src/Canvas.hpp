@@ -10,7 +10,7 @@
 #include "Color.hpp"
 
 
-static unsigned int xy_to_pos(unsigned int x, unsigned int y, unsigned int h, unsigned int w);
+//static unsigned int xy_to_pos(unsigned int x, unsigned int y, unsigned int h, unsigned int w);
 
 /*
  * Holds pixel values for an image

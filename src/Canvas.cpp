@@ -11,10 +11,10 @@
 /*
  * Generic xy -> idx function
  */
-static unsigned int xy_to_pos(unsigned int x, unsigned int y, unsigned int h, unsigned int w)
-{
-    return (y * h) + ((x % w == 0) ? 0 : x);
-}
+//static unsigned int xy_to_pos(unsigned int x, unsigned int y, unsigned int h, unsigned int w)
+//{
+//    return (y * h) + ((x % w == 0) ? 0 : x);
+//}
 
 /*
  * ================ CANVAS ================ 
