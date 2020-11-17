@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -26,14 +27,10 @@ Matrix::Matrix(unsigned int r, unsigned int c) : rows(r), cols(c)
 // copy constructor
 Matrix::Matrix(const Matrix& that)
 {
-    if(this->size() != that.size())
-    {
-        if(this->size() < that.size())
-            this->data.reserve(that.size());
-        this->rows = that.rows;
-        this->cols = that.cols;
-        //std::swap(this->data, that.data);
-    }
+    this->data = that.data;
+    this->rows = that.rows;
+    this->cols = that.cols;
+    std::cout << "[" << __func__ << "] new size is (" << this->rows << "," << this->cols << ")" << std::endl;
 }
 
 // copy assignment
@@ -41,9 +38,25 @@ Matrix& Matrix::operator=(const Matrix& that)
 {
     if(this != &that)
     {
-        this->data = that.data;
+        std::cout << "[" << __func__ << "] that.size() : " << that.size() << std::endl;
+        for(unsigned i = 0; i < that.size(); ++i)
+            std::cout << that.data[i] << " ";
+        std::cout << std::endl;
+        std::cout << "[" << __func__ << "] before copy assignment: " << this->toString() << std::endl;
+        if(this->size() < that.size())
+        {
+            std::cout << "[" << __func__ << "] this->size() [" << this->size() << "] < that.size() [" << that.size() << "]" << std::endl;
+            this->data.reserve(that.size());
+        }
+
+        for(unsigned i = 0; i < that.size(); ++i)
+            this->data[i] = that.data[i];       // TODO: std::copy?
+        std::cout << std::endl;
+
         this->rows = that.rows;
         this->cols = that.cols;
+        std::cout << "[" << __func__ << "] new size is (" << this->rows << "," << this->cols << ")" << std::endl;
+        std::cout << "[" << __func__ << "] after copy assignment: " << this->toString() << std::endl;
     }
     return *this;
 }
@@ -94,29 +107,50 @@ float& Matrix::operator()(unsigned r, unsigned c)
     return this->data[this->xy_to_pos(r, c)];
 }
 
+/*
+ * shape()
+ */
+std::vector<unsigned int> Matrix::shape(void) const
+{
+    return std::vector<unsigned int>(this->rows, this->cols);
+}
 
+/*
+ * size()
+ */
 unsigned Matrix::size(void) const
 {
     return this->rows * this->cols;
 }
 
+/*
+ * nrows()
+ */
 unsigned int Matrix::nrows(void) const
 {
     return this->rows;
 }
 
+/*
+ * ncols()
+ */
 unsigned int Matrix::ncols(void) const
 {
     return this->cols;
 }
 
+/*
+ * clear()
+ */
 void Matrix::clear(void)
 {
     for(unsigned int i = 0; i < this->size(); ++i)
         this->data[i] = 0.0;
 }    
 
-
+/*
+ * toString()
+ */
 std::string Matrix::toString(void) const
 {
     std::ostringstream oss;

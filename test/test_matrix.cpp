@@ -34,6 +34,7 @@ TEST_CASE("test_matrix_init", "matrix")
     }
 }
 
+
 TEST_CASE("test_matrix_subscript", "matrix")
 {
     Matrix mat(4, 4);
@@ -49,4 +50,47 @@ TEST_CASE("test_matrix_subscript", "matrix")
 
     CHECK_THROWS(mat(5,5));
     CHECK_THROWS(mat(4,4));
+}
+
+TEST_CASE("test_matrix_copy", "matrix")
+{
+    Matrix mat22_src(2, 2);
+    Matrix mat22_dst(2, 2);
+
+    mat22_src(0,0) = -3;
+    mat22_src(0,1) = 5;
+    mat22_src(1,0) = 1;
+    mat22_src(1,1) = -2;
+
+    std::cout << "Before assignment: " << std::endl;
+    std::cout << "mat22_src :  " << mat22_src.toString() << std::endl;
+    std::cout << "mat22_dst :  " << mat22_dst.toString() << std::endl;
+
+    REQUIRE(mat22_src != mat22_dst);
+    mat22_dst = mat22_src;
+
+    std::cout << "After assignment: " << std::endl;
+    std::cout << "mat22_src :  " << mat22_src.toString() << std::endl;
+    std::cout << "mat22_dst :  " << mat22_dst.toString() << std::endl;
+
+    REQUIRE(mat22_src == mat22_dst);
+}
+
+
+
+TEST_CASE("test_matrix_compare", "matrix")
+{
+    Matrix mat22(2, 2);
+
+    mat22(0,0) = -3;
+    mat22(0,1) = 5;
+    mat22(1,0) = 1;
+    mat22(1,1) = -2;
+
+    std::string exp_mat22_str = 
+        std::string("Matrix(2,2)\n") + 
+        std::string("-3   5 \n") + 
+        std::string("1    -2 \n");
+
+    REQUIRE(mat22.toString() == exp_mat22_str);
 }

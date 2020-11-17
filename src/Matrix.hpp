@@ -35,10 +35,13 @@ class Matrix
         bool operator==(const Matrix& that) const;
         bool operator!=(const Matrix& that) const;
 
+        // Arithmetic 
+
         // access 
         float  operator()(unsigned r, unsigned c) const;
         float& operator()(unsigned r, unsigned c);
 
+        std::vector<unsigned int> shape(void) const;
         unsigned int size(void) const;
         unsigned int nrows(void) const;
         unsigned int ncols(void) const;
