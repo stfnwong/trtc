@@ -64,7 +64,7 @@ Matrix& Matrix::operator=(const Matrix& that)
 }
 
 
-unsigned Matrix::xy_to_pos(unsigned int r, unsigned int c) const
+unsigned Matrix::rc_to_pos(unsigned int r, unsigned int c) const
 {
     return (r * this->cols) + c;
 }
@@ -93,20 +93,79 @@ bool Matrix::operator!=(const Matrix& that) const
 }
 
 /*
+ * Arithmetic
+ */
+// NOTE: This is a very basic implementation
+/*
+ * * (Matrix-Matrix)
+ */
+Matrix Matrix::operator*(const Matrix& that) const
+{
+    Matrix out_mat(this->rows, that.ncols());
+
+    if(this->cols == that.nrows())
+    {
+        unsigned int rr, cc, kk;
+        float elem;
+        for(rr = 0; rr < this->rows; ++rr)
+        {
+            for(cc = 0; cc < that.ncols(); ++cc)
+            {
+                elem = 0.0;
+                for(kk = 0; kk < this->cols; ++kk)
+                    elem += this->data[this->rc_to_pos(rr, kk)] * that(kk, cc);
+                out_mat(rr, cc) = elem;
+            }
+        }
+    }
+    else        // TODO: out_of_range might not be the right exception to throw...
+    {
+        throw std::out_of_range("Cannot multiply matrix of size (" + std::to_string(this->rows) 
+                + "," + std::to_string(this->cols) + " with matrix of size (" + std::to_string(that.nrows())
+                + "," + std::to_string(that.ncols()) + ")");
+    }
+
+    return out_mat;
+}
+
+/*
+ * Matrix-Tuple
+ */
+Tuple Matrix::operator*(const Tuple& that) const
+{
+    Tuple out_tuple;
+
+    unsigned int rr, kk;
+    float elem;
+
+    for(rr = 0; rr < this->rows; ++rr)
+    {
+        elem = 0.0;
+        for(kk = 0; kk < this->cols; ++kk)
+        {
+            elem += this->data[this->rc_to_pos(rr, kk)] * that[kk];
+        }
+        out_tuple[rr] = elem;
+    }
+
+    return out_tuple;
+}
+
+/*
  * Access operator 
  */
 float Matrix::operator()(unsigned r, unsigned c) const
 {
     if(r >= this->rows || c >= this->cols)
         throw std::out_of_range("Subscript out of bounds");
-    return this->data[this->xy_to_pos(r, c)];
+    return this->data[this->rc_to_pos(r, c)];
 }
 
 float& Matrix::operator()(unsigned r, unsigned c)
 {
     if(r >= this->rows || c >= this->cols)
         throw std::out_of_range("Subscript out of bounds");
-    return this->data[this->xy_to_pos(r, c)];
+    return this->data[this->rc_to_pos(r, c)];
 }
 
 /*
@@ -142,6 +201,15 @@ unsigned int Matrix::ncols(void) const
 }
 
 /*
+ * fill()
+ */
+void Matrix::fill(float f)
+{
+    for(unsigned int i = 0; i < this->size(); ++i)
+        this->data[i] = f;
+}
+
+/*
  * clear()
  */
 void Matrix::clear(void)
@@ -162,7 +230,7 @@ std::string Matrix::toString(void) const
     {
         for(unsigned int c = 0; c < this->cols; ++c)
         {
-            oss << std::setw(4) << std::left << this->data[this->xy_to_pos(r, c)] << " ";
+            oss << std::setw(4) << std::left << this->data[this->rc_to_pos(r, c)] << " ";
         }
         oss << std::endl;
     }

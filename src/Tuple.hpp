@@ -50,6 +50,10 @@ struct Tuple
         // scalar divide
         Tuple operator/(float that) const;
 
+        // element access
+        float operator[](unsigned int idx) const;
+        float& operator[](unsigned int idx);
+
         float dot(const Tuple& that) const;
         Tuple cross(const Tuple& that) const;
 

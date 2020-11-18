@@ -154,6 +154,51 @@ Tuple Tuple::operator/(float that) const
 }
 
 /*
+ * Element access
+ */
+float Tuple::operator[](unsigned int idx) const
+{
+    switch(idx)
+    {
+        case 0:
+            return x;
+            break;
+        case 1:
+            return y;
+            break;
+        case 2:
+            return z;
+            break;
+        case 3:
+            return w;
+            break;
+    }
+    
+    throw std::out_of_range("Cannot access index " + std::to_string(idx) + " of tuple");
+}
+
+float& Tuple::operator[](unsigned int idx)
+{
+    switch(idx)
+    {
+        case 0:
+            return x;
+            break;
+        case 1:
+            return y;
+            break;
+        case 2:
+            return z;
+            break;
+        case 3:
+            return w;
+            break;
+    }
+    
+    throw std::out_of_range("Cannot access index " + std::to_string(idx) + " of tuple");
+}
+
+/*
  * Products
  */
 float Tuple::dot(const Tuple& that) const

@@ -170,11 +170,61 @@ TEST_CASE("test_matrix_compare", "matrix")
 
 
 // ================ ARITHMETIC ================ //
-//TEST_CASE("test_matrix_multiply", "matrix")
-//{
-//    Matrix a_mat(4, 4);
-//    Matrix b_mat(4, 4);
-//
-//    // Setup the two input matricies
-//
-//}
+TEST_CASE("test_matrix_matrix_multiply", "matrix")
+{
+    std::vector<float> a_mat_vals = {
+        1, 2, 3, 4,
+        5, 6, 7, 8,
+        9, 8, 7, 6,
+        5, 4, 3, 2
+    };
+    std::vector<float> b_mat_vals = {
+        -2, 1, 2, 3,
+        3,  2, 1, -1,
+        4,  3, 6, 5,
+        1,  2, 7, 8
+    };
+    std::vector<float> exp_mat_vals = {
+        20, 22, 50,  48,
+        44, 54, 114, 108,
+        40, 58, 110, 102,
+        16, 26, 46,  42
+    };
+    Matrix a_mat(4, 4, a_mat_vals);
+    Matrix b_mat(4, 4, b_mat_vals);
+    Matrix exp_mat(4, 4, exp_mat_vals);
+
+    Matrix out_mat(4, 4);
+
+    out_mat = a_mat * b_mat;
+    REQUIRE(out_mat == exp_mat);
+
+    // It should also be possible to multiply by any (4,N) matrix as well
+    //Matrix c_mat = ones(4, 2);
+    //std::cout << "c_mat : " << c_mat.toString() << std::endl;
+    //Matrix c_mat_out(4, 2);
+    ////Matrix c_mat_exp(4,2, c_mat_exp_vals);
+
+    //c_mat_out = a_mat * c_mat;
+    //std::cout << "c_mat_out : " << c_mat_out.toString() << std::endl;
+    //REQUIRE(c_mat_out == a_mat);
+}
+
+
+TEST_CASE("test_matrix_tuple_multiply", "matrix")
+{
+    std::vector<float> a_mat_vals = {
+        1, 2, 3, 4,
+        2, 4, 4, 2,
+        8, 6, 4, 1,
+        0, 0, 0, 1
+    };
+    Matrix a_mat(4, 4, a_mat_vals);
+    Tuple tuple(1, 2, 3, 1);
+
+    Tuple exp_tuple(18, 24, 33, 1);
+
+    Tuple out_tuple = a_mat * tuple;
+    std::cout << "out_tuple : " << out_tuple.toString() << std::endl;
+    REQUIRE(out_tuple == exp_tuple);
+}

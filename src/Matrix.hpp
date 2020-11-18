@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include "Tuple.hpp"
+
 /*
  * A Matrix. Because this is a raytracer we only need to implement 2d
  * matricies 
@@ -21,7 +23,7 @@ class Matrix
         std::vector<float> data;
 
     private:
-        unsigned xy_to_pos(unsigned int r, unsigned int c) const;
+        unsigned rc_to_pos(unsigned int r, unsigned int c) const;
 
     public:
         Matrix(unsigned int r, unsigned int c);
@@ -37,6 +39,8 @@ class Matrix
         bool operator!=(const Matrix& that) const;
 
         // Arithmetic 
+        Matrix operator*(const Matrix& that) const;
+        Tuple  operator*(const Tuple& that) const;
 
         // access 
         float  operator()(unsigned r, unsigned c) const;
@@ -46,6 +50,7 @@ class Matrix
         unsigned int size(void) const;
         unsigned int nrows(void) const;
         unsigned int ncols(void) const;
+        void fill(float f);
         void clear(void);
 
         std::string toString(void) const;
@@ -60,7 +65,6 @@ Matrix eye(unsigned int size);
  * Get a Matrix of ones
  */
 Matrix ones(unsigned int r, unsigned int c);
-
 
 
 #endif /*__MATRIX_HPP*/
