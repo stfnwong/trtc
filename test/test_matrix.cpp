@@ -228,3 +228,27 @@ TEST_CASE("test_matrix_tuple_multiply", "matrix")
     std::cout << "out_tuple : " << out_tuple.toString() << std::endl;
     REQUIRE(out_tuple == exp_tuple);
 }
+
+
+TEST_CASE("test_matrix_transpose", "matrix")
+{
+    std::vector<float> inp_mat_vals = {
+        0, 9, 3, 0,
+        9, 8, 0, 8,
+        1, 8, 5, 3,
+        0, 0, 5, 8
+    };
+    std::vector<float> exp_mat_vals = {
+        0, 9, 1, 0,
+        9, 8, 8, 0,
+        3, 0, 5, 5,
+        0, 8, 3, 8
+    };
+
+    Matrix inp_mat(4, 4, inp_mat_vals);
+    Matrix exp_mat(4, 4, exp_mat_vals);
+    Matrix tr_mat(4, 4);
+
+    tr_mat = inp_mat.transpose();
+    REQUIRE(tr_mat == exp_mat);
+}

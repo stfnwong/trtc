@@ -169,6 +169,22 @@ float& Matrix::operator()(unsigned r, unsigned c)
 }
 
 /*
+ * transpose()
+ */
+Matrix Matrix::transpose(void) const
+{
+    Matrix out_mat(this->cols, this->rows);
+
+    for(unsigned int rr = 0; rr < this->rows; ++rr)
+    {
+        for(unsigned int cc = 0; cc < this->cols; ++cc)
+            out_mat(cc, rr) = this->data[this->rc_to_pos(rr, cc)];
+    }
+
+    return out_mat;
+}
+
+/*
  * shape()
  */
 std::vector<unsigned int> Matrix::shape(void) const
