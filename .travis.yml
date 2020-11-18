@@ -22,3 +22,4 @@ script:
     - ./bin/test/test_color
     - ./bin/test/test_canvas
     - ./bin/test/test_projectile
+    - ./bin/test/test_matrix

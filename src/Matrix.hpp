@@ -25,6 +25,7 @@ class Matrix
 
     public:
         Matrix(unsigned int r, unsigned int c);
+        Matrix(unsigned int r, unsigned int c, const std::vector<float>& vals);
         Matrix(const Matrix& that);
 
         // def need copy assignment 
@@ -50,6 +51,15 @@ class Matrix
         std::string toString(void) const;
 };
 
+
+/*
+ * Get an Identity Matrix
+ */
+Matrix eye(unsigned int size);
+/*
+ * Get a Matrix of ones
+ */
+Matrix ones(unsigned int r, unsigned int c);
 
 
 

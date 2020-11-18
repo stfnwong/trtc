@@ -15,13 +15,25 @@
 
 
 
-
+/*
+ * ================ MATRIX ================
+ */
 Matrix::Matrix(unsigned int r, unsigned int c) : rows(r), cols(c) 
 {
     if(this->rows == 0 || this->cols == 0)
         throw std::out_of_range("0-size given in Matrix constructor");
     this->data.reserve(this->rows * this->cols);
     this->clear();
+}
+
+Matrix::Matrix(unsigned int r, unsigned int c, const std::vector<float>& vals) : rows(r), cols(c)
+{
+    if(this->rows == 0 || this->cols == 0)
+        throw std::out_of_range("0-size given in Matrix constructor");
+    if(this->size() > vals.size())
+        throw std::out_of_range("Not enough value provided. Need at least " + std::to_string(this->size()) 
+                + ", got " + std::to_string(vals.size()));
+    this->data = vals;
 }
 
 // copy constructor
@@ -156,4 +168,38 @@ std::string Matrix::toString(void) const
     }
 
     return oss.str();
+}
+
+
+
+
+/*
+ * eye()
+ */
+Matrix eye(unsigned int size)
+{
+    Matrix e(size, size);
+
+    for(unsigned int i = 0; i < size; ++i)
+        e(i, i) = 1.0;
+
+    return e;
+}
+
+/*
+ * ones()
+ */
+Matrix ones(unsigned int r, unsigned int c)
+{
+    Matrix o(r, c);
+
+    for(unsigned int rr = 0; rr < o.nrows(); ++rr)
+    {
+        for(unsigned int cc = 0; cc < o.ncols(); ++cc)
+        {
+            o(rr, cc) = 1.0;
+        }
+    }
+
+    return o;
 }
