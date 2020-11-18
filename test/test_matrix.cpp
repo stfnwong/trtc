@@ -89,8 +89,11 @@ TEST_CASE("test_matrix_compare", "matrix")
 
     std::string exp_mat22_str = 
         std::string("Matrix(2,2)\n") + 
-        std::string("-3   5 \n") + 
-        std::string("1    -2 \n");
+        std::string("-3   5    \n") + 
+        std::string("1    -2   \n");
+
+    std::cout << "mat22 string length     : " << mat22.toString().length() << std::endl;
+    std::cout << "exp_mat22 string length : " << exp_mat22_str.length() << std::endl;
 
     REQUIRE(mat22.toString() == exp_mat22_str);
 }

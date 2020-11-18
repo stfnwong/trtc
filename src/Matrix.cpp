@@ -27,10 +27,11 @@ Matrix::Matrix(unsigned int r, unsigned int c) : rows(r), cols(c)
 // copy constructor
 Matrix::Matrix(const Matrix& that)
 {
-    this->data = that.data;
+    //this->data = that.data;
+    for(unsigned int i = 0; i < that.size(); ++i)
+        this->data[i] =  that.data[i];
     this->rows = that.rows;
     this->cols = that.cols;
-    std::cout << "[" << __func__ << "] new size is (" << this->rows << "," << this->cols << ")" << std::endl;
 }
 
 // copy assignment
@@ -38,25 +39,14 @@ Matrix& Matrix::operator=(const Matrix& that)
 {
     if(this != &that)
     {
-        std::cout << "[" << __func__ << "] that.size() : " << that.size() << std::endl;
-        for(unsigned i = 0; i < that.size(); ++i)
-            std::cout << that.data[i] << " ";
-        std::cout << std::endl;
-        std::cout << "[" << __func__ << "] before copy assignment: " << this->toString() << std::endl;
         if(this->size() < that.size())
-        {
-            std::cout << "[" << __func__ << "] this->size() [" << this->size() << "] < that.size() [" << that.size() << "]" << std::endl;
             this->data.reserve(that.size());
-        }
 
-        for(unsigned i = 0; i < that.size(); ++i)
+        for(unsigned int i = 0; i < that.size(); ++i)
             this->data[i] = that.data[i];       // TODO: std::copy?
-        std::cout << std::endl;
 
         this->rows = that.rows;
         this->cols = that.cols;
-        std::cout << "[" << __func__ << "] new size is (" << this->rows << "," << this->cols << ")" << std::endl;
-        std::cout << "[" << __func__ << "] after copy assignment: " << this->toString() << std::endl;
     }
     return *this;
 }
