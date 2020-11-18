@@ -51,7 +51,7 @@ TEST_CASE("test_matrix_init_with_vals", "matrix")
     {
         for(unsigned int cc = 0; cc < val_mat.ncols(); ++cc)
         {
-            REQUIRE(equal(val_mat(rr, cc), mat_values[4 * rr + cc]));
+            REQUIRE(equal(val_mat(rr, cc), mat_values[val_mat.nrows() * rr + cc]));
         }
     }
 
@@ -74,7 +74,7 @@ TEST_CASE("test_matrix_init_with_vals", "matrix")
     {
         for(unsigned int cc = 0; cc < extra_val_mat.ncols(); ++cc)
         {
-            REQUIRE(equal(extra_val_mat(rr, cc), too_many_vals[3 * rr + cc]));
+            REQUIRE(equal(extra_val_mat(rr, cc), too_many_vals[extra_val_mat.nrows() * rr + cc]));
         }
     }
 }
@@ -162,9 +162,6 @@ TEST_CASE("test_matrix_compare", "matrix")
         std::string("-3   5    \n") + 
         std::string("1    -2   \n");
 
-    std::cout << "mat22 string length     : " << mat22.toString().length() << std::endl;
-    std::cout << "exp_mat22 string length : " << exp_mat22_str.length() << std::endl;
-
     REQUIRE(mat22.toString() == exp_mat22_str);
 }
 
@@ -223,9 +220,8 @@ TEST_CASE("test_matrix_tuple_multiply", "matrix")
     Tuple tuple(1, 2, 3, 1);
 
     Tuple exp_tuple(18, 24, 33, 1);
-
     Tuple out_tuple = a_mat * tuple;
-    std::cout << "out_tuple : " << out_tuple.toString() << std::endl;
+
     REQUIRE(out_tuple == exp_tuple);
 }
 
@@ -251,4 +247,56 @@ TEST_CASE("test_matrix_transpose", "matrix")
 
     tr_mat = inp_mat.transpose();
     REQUIRE(tr_mat == exp_mat);
+}
+
+TEST_CASE("test_matrix_2x2_determinant", "matrix")
+{
+    std::vector<float> mat_values = {1, 5, -3, 2};
+    Matrix mat22(2, 2, mat_values);
+    float exp_det = 17.0;
+
+    float out_det = mat22.det();
+    REQUIRE(equal(out_det, exp_det));
+}
+
+TEST_CASE("test_matrix33_submatrix", "matrix")
+{
+    std::vector<float> mat_values = {
+        1,  5,  0,
+        -3, 2,  7,
+        0,  6, -3
+    };
+    Matrix test_mat(3, 3, mat_values);
+
+    std::vector<float> exp_submat_02_vals = {
+        -3, 2,
+        0,  6
+    };
+    Matrix exp_submat_02(2, 2, exp_submat_02_vals);
+    Matrix submat_02(2, 2);
+
+    submat_02 = test_mat.submatrix(0, 2);
+    REQUIRE(submat_02 == exp_submat_02);
+}
+
+TEST_CASE("test_matrix44_submatrix", "matrix")
+{
+    std::vector<float> mat_values = {
+        -6, 1,  1, 6,
+        -8, 5,  8, 6,
+        -1, 0,  8, 2,
+        -7, 1, -1, 1
+    };
+    Matrix test_mat(4, 4, mat_values);
+
+    std::vector<float> exp_submat_33_vals = {
+        -6, 1,  6,
+        -8, 8,  6,
+        -7, -1, 1
+    };
+    Matrix exp_submat_21(3, 3, exp_submat_33_vals);
+    Matrix submat_21(3, 3);
+
+    submat_21 = test_mat.submatrix(2, 1);
+    REQUIRE(submat_21 == exp_submat_21);
 }

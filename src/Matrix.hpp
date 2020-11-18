@@ -46,9 +46,11 @@ class Matrix
         float  operator()(unsigned r, unsigned c) const;
         float& operator()(unsigned r, unsigned c);
 
+        Matrix submatrix(unsigned int r, unsigned int c) const;
         // transpose
         Matrix transpose(void) const;
         //Matrix tr(void);      // TODO: in-place transpose
+        float det(void) const;
 
         std::vector<unsigned int> shape(void) const;
         unsigned int size(void) const;

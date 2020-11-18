@@ -169,6 +169,34 @@ float& Matrix::operator()(unsigned r, unsigned c)
 }
 
 /*
+ * submatrix()
+ */
+Matrix Matrix::submatrix(unsigned int r, unsigned int c) const
+{
+    Matrix out_mat(this->rows-1, this->cols-1);
+
+    unsigned int c_out = 0;
+    unsigned int r_out = 0;
+
+    for(unsigned int rr = 0; rr < this->rows; ++rr)
+    {
+        if(rr == r)
+            continue;
+        for(unsigned cc = 0; cc < this->cols; ++cc)
+        {
+            if(cc == c)
+                continue;
+            out_mat(r_out, c_out) = this->data[this->rc_to_pos(rr, cc)];
+            c_out++;
+        }
+        r_out++;
+        c_out = 0;
+    }
+
+    return out_mat;
+}
+
+/*
  * transpose()
  */
 Matrix Matrix::transpose(void) const
@@ -182,6 +210,15 @@ Matrix Matrix::transpose(void) const
     }
 
     return out_mat;
+}
+
+/*
+ * det()
+ * TODO : this is only implemented for 2x2 matricies for now 
+ */
+float Matrix::det(void) const
+{
+    return (this->data[0] * this->data[3]) - (this->data[1] * this->data[2]);
 }
 
 /*
