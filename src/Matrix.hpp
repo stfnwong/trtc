@@ -51,6 +51,8 @@ class Matrix
         Matrix transpose(void) const;
         //Matrix tr(void);      // TODO: in-place transpose
         float det(void) const;
+        float minor(unsigned int r, unsigned int c) const;
+        float cofactor(unsigned int r, unsigned int c) const;
 
         std::vector<unsigned int> shape(void) const;
         unsigned int size(void) const;

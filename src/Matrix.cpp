@@ -222,6 +222,23 @@ float Matrix::det(void) const
 }
 
 /*
+ * minor()
+ */
+float Matrix::minor(unsigned int r, unsigned c) const
+{
+    Matrix submat = this->submatrix(r, c);
+    return submat.det();
+}
+
+/*
+ * cofactor()
+ */
+float Matrix::cofactor(unsigned int r, unsigned int c) const
+{
+    return ((r + c) % 2 == 0) ? this->minor(r, c) : -this->minor(r, c);
+}
+
+/*
  * shape()
  */
 std::vector<unsigned int> Matrix::shape(void) const

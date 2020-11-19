@@ -300,3 +300,43 @@ TEST_CASE("test_matrix44_submatrix", "matrix")
     submat_21 = test_mat.submatrix(2, 1);
     REQUIRE(submat_21 == exp_submat_21);
 }
+
+TEST_CASE("test_matrix_minor", "matrix")
+{
+    std::vector<float> mat_vals = {
+        3,  5,  0,
+        2, -1, -7,
+        6, -1,  5
+    };
+    Matrix a_mat(3, 3, mat_vals);
+    Matrix b_mat = a_mat.submatrix(1, 0);
+
+    float exp_det = 25.0;
+    float exp_minor = 25.0;
+
+    REQUIRE(equal(b_mat.det(), exp_det));
+    REQUIRE(equal(a_mat.minor(1, 0), exp_minor));
+}
+
+TEST_CASE("test_matrix_cofactor", "matrix")
+{
+    std::vector<float> mat_vals = {
+        3,  5,  0,
+        2, -1, -7,
+        6, -1,  5
+    };
+    Matrix a_mat(3, 3, mat_vals);
+
+    float exp_minor_00 = -12;
+    float exp_cofactor_00 = -12;
+
+    REQUIRE(equal(a_mat.minor(0, 0), exp_minor_00));
+    REQUIRE(equal(a_mat.cofactor(0, 0), exp_cofactor_00));
+
+    float exp_minor_10 = 25;
+    float exp_cofactor_10 = -25;
+
+    REQUIRE(equal(a_mat.minor(1, 0), exp_minor_10));
+    REQUIRE(equal(a_mat.cofactor(1, 0), exp_cofactor_10));
+}
+
