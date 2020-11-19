@@ -381,3 +381,125 @@ TEST_CASE("test_matrix44_determinant", "matrix")
     REQUIRE(equal(b_mat.cofactor(0, 3), exp_cofactor_03));
     REQUIRE(equal(b_mat.det(), exp_det_44));
 }
+
+TEST_CASE("test_matrix_invertible", "matrix")
+{
+    std::vector<float> inv_vals = {
+        6,  4, 4,  4,
+        5,  5, 7,  6,
+        4, -9, 3, -7,
+        9,  1, 7, -6
+    };
+    Matrix mat_inv(4, 4, inv_vals);
+    float exp_det_inv = -2120;
+
+    REQUIRE(equal(mat_inv.det(), exp_det_inv));
+
+    std::vector<float> non_inv_vals = {
+        -4, 2, -2, -3,
+        9,  6,  2,  6,
+        0, -5,  1, -5,
+        0,  0,  0,  0
+    };
+    Matrix mat_non_inv(4, 4, non_inv_vals);
+    REQUIRE(equal(mat_non_inv.det(), 0.0));
+}
+
+TEST_CASE("test_matrix_invert", "matrix")
+{
+    std::vector<float> mat44_vals = {
+        -5,  2,  6, -8,
+        1,  -5,  1,  8,
+        7,   7, -6, -7,
+        1,  -3,  7,  4
+    };
+    Matrix mat44(4, 4, mat44_vals);
+    Matrix mat44_inv = mat44.inverse();
+
+    float exp_det         = 532.0;
+    float exp_cofactor_23 = -160.0;
+    float exp_b32         = -160.0 / 532.0;
+    float exp_cofactor_32 = 105.0;
+    float exp_b23         = 105.0 / 532.0;
+
+    std::vector<float> mat44_inv_vals = {
+         0.21805,  0.45113,  0.24060, -0.04511,
+        -0.80827, -1.45677, -0.44361,  0.52068,
+        -0.07895, -0.22368, -0.05263,  0.19737,
+        -0.52256, -0.81391, -0.30075,  0.30639
+    };
+    Matrix mat44_exp_inv(4, 4, mat44_inv_vals); 
+
+    REQUIRE(equal(mat44.det(), exp_det));
+
+    REQUIRE(equal(mat44.cofactor(2, 3), exp_cofactor_23));
+    REQUIRE(equal(mat44.cofactor(3, 2), exp_cofactor_32));
+    REQUIRE(equal(mat44_inv(3, 2), exp_b32));
+    REQUIRE(equal(mat44_inv(2, 3), exp_b23));
+
+    REQUIRE(mat44_inv == mat44_exp_inv);
+
+    // Some more matricies 
+    std::vector<float> c_mat_vals = {
+         8, -5,  9,  2, 
+         7,  5,  6,  1,
+        -6,  0,  9,  6,
+        -3,  0, -9, -4
+    };
+    Matrix c_mat(4, 4, c_mat_vals);
+
+    std::vector<float> c_mat_inv_vals = {
+        -0.15385, -0.15385, -0.28205, -0.53846,
+        -0.07692,  0.12308,  0.02564,  0.03077,
+         0.35897,  0.35897,  0.43590,  0.92308,
+        -0.69231, -0.69231, -0.76923, -1.92308
+    };
+    Matrix exp_c_mat_inv(4, 4, c_mat_inv_vals);
+    Matrix c_mat_inv = c_mat.inverse();
+
+    REQUIRE(c_mat_inv == exp_c_mat_inv);
+
+    // Another matrix
+    std::vector<float> d_mat_vals = {
+         9,  3,  0,  9,
+        -5, -2, -6, -3,
+        -4,  9,  6,  4,
+        -7,  6,  6,  2
+    };
+    Matrix d_mat(4, 4, d_mat_vals);
+    
+    std::vector<float> d_mat_inv_vals = {
+        -0.04074, -0.07777,  0.14444, -0.22222,
+        -0.07778,  0.03333,  0.36667, -0.33333,
+        -0.02901, -0.14630, -0.10926,  0.12963,
+         0.17778,  0.06667, -0.26667,  0.33333
+    };
+    Matrix exp_d_mat_inv(4, 4, d_mat_inv_vals);
+    Matrix d_mat_inv = d_mat.inverse();
+
+    REQUIRE(d_mat_inv == exp_d_mat_inv);
+}
+
+TEST_CASE("test_matrix_invert_and multiply", "matrix")
+{
+    std::vector<float> a_vals = {
+        3, -9, 7, 3,
+        3, -8, 2, -9,
+        -4, 4, 4, 1,
+        -6, 5, -1, 1
+    };
+    Matrix a_mat(4, 4, a_vals);
+
+    std::vector<float> b_vals = {
+        8,  2, 2, 2,
+        3, -1, 7, 0,
+        7,  0, 5, 4, 
+        6, -2, 0, 5
+    };
+    Matrix b_mat(4, 4, b_vals);
+
+    Matrix c_mat = a_mat * b_mat;
+    Matrix a_mat_inv = c_mat * b_mat.inverse();
+
+    REQUIRE(a_mat_inv == a_mat);
+}

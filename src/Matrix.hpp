@@ -47,8 +47,10 @@ class Matrix
         float& operator()(unsigned r, unsigned c);
 
         Matrix submatrix(unsigned int r, unsigned int c) const;
-        // transpose
+        // transpose (copy)
         Matrix transpose(void) const;
+        // inverse (copy)
+        Matrix inverse(void) const;
         //Matrix tr(void);      // TODO: in-place transpose
         float det(void) const;
         float minor(unsigned int r, unsigned int c) const;

@@ -213,6 +213,29 @@ Matrix Matrix::transpose(void) const
 }
 
 /*
+ * inverse()
+ */
+Matrix Matrix::inverse(void) const
+{
+    Matrix out_mat(this->rows, this->cols);
+
+    if(this->det() == 0.0)
+        return out_mat;
+
+    float cf = 0.0;
+    for(unsigned int rr = 0; rr < this->rows; ++rr)
+    {
+        for(unsigned int cc = 0; cc < this->cols; ++cc)
+        {
+            cf = this->cofactor(rr, cc);
+            out_mat(cc, rr) = cf / this->det();
+        }
+    }
+
+    return out_mat;
+}
+
+/*
  * det()
  * TODO : this is only implemented for 2x2 matricies for now 
  */
