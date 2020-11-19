@@ -340,3 +340,44 @@ TEST_CASE("test_matrix_cofactor", "matrix")
     REQUIRE(equal(a_mat.cofactor(1, 0), exp_cofactor_10));
 }
 
+
+TEST_CASE("test_matrix33_determinant", "matrix")
+{
+    std::vector<float> mat33_vals = {
+         1, 2,  6,
+        -5, 8, -4,
+         2, 6,  4
+    };
+    Matrix a_mat(3, 3, mat33_vals);
+    float exp_cofactor_00 = 56;
+    float exp_cofactor_01 = 12;
+    float exp_cofactor_02 = -46;
+    float exp_det_33      = -196;
+
+    REQUIRE(equal(a_mat.cofactor(0, 0), exp_cofactor_00));
+    REQUIRE(equal(a_mat.cofactor(0, 1), exp_cofactor_01));
+    REQUIRE(equal(a_mat.cofactor(0, 2), exp_cofactor_02));
+    REQUIRE(equal(a_mat.det(), exp_det_33));
+}
+
+TEST_CASE("test_matrix44_determinant", "matrix")
+{
+    std::vector<float> mat44_vals = {
+        -2, -8,  3,  5,
+        -3,  1,  7,  3,
+         1,  2, -9,  6,
+        -6,  7,  7, -9
+    };
+    Matrix b_mat(4, 4, mat44_vals);
+    float exp_cofactor_00 = 690;
+    float exp_cofactor_01 = 447;
+    float exp_cofactor_02 = 210;
+    float exp_cofactor_03 = 51;
+    float exp_det_44      = -4071;
+
+    REQUIRE(equal(b_mat.cofactor(0, 0), exp_cofactor_00));
+    REQUIRE(equal(b_mat.cofactor(0, 1), exp_cofactor_01));
+    REQUIRE(equal(b_mat.cofactor(0, 2), exp_cofactor_02));
+    REQUIRE(equal(b_mat.cofactor(0, 3), exp_cofactor_03));
+    REQUIRE(equal(b_mat.det(), exp_det_44));
+}

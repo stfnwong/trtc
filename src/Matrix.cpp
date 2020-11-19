@@ -218,7 +218,17 @@ Matrix Matrix::transpose(void) const
  */
 float Matrix::det(void) const
 {
-    return (this->data[0] * this->data[3]) - (this->data[1] * this->data[2]);
+    float det = 0.0;
+
+    if(this->rows == 2 && this->cols == 2)
+        det = (this->data[0] * this->data[3]) - (this->data[1] * this->data[2]);
+    else
+    {
+        for(unsigned int cc = 0; cc < this->cols; ++cc)
+            det = det + this->data[this->rc_to_pos(0, cc)] * this->cofactor(0, cc);
+    }
+
+    return det;
 }
 
 /*
