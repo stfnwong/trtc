@@ -12,6 +12,7 @@
 
 
 Matrix translate(float x, float y, float z);
+Matrix scale(float x, float y, float z);
 
 
 

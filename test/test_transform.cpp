@@ -12,6 +12,7 @@
 #include "Transform.hpp"
 
 
+// ======== TRANSLATE ======== // 
 TEST_CASE("test_translate", "transform")
 {
     // GIVEN: A point and a translation matrix
@@ -53,4 +54,48 @@ TEST_CASE("test_translate_does_not_affect_vectors", "transform")
     Tuple t_vec = translation_mat * v1;
 
     REQUIRE(t_vec == v1);
+}
+
+// ======== SCALE ======== // 
+TEST_CASE("test_scale_point", "transform")
+{
+    // GIVEN: A point and a scaling matrix
+    // WHEN: That point is multiplied by the translation matrix 
+    // THEN: The point becomes scaled
+    Tuple p1 = create_point(-4, 6, 8);
+    Matrix scale_mat = scale(2, 3, 4);
+    Tuple exp_point = create_point(-8, 18, 32);
+
+    Tuple out_point = scale_mat * p1;
+
+    REQUIRE(out_point == exp_point);
+}
+
+TEST_CASE("test_scale_vector", "transform")
+{
+    // GIVEN: A vector and a scaling matrix
+    // WHEN: That vector is multiplied by the translation matrix 
+    // THEN: The vector becomes scaled
+    Tuple v1 = create_vector(-4, 6, 8);
+    Matrix scale_mat = scale(2, 3, 4);
+    Tuple exp_vector = create_vector(-8, 18, 32);
+
+    Tuple out_vector = scale_mat * v1;
+
+    REQUIRE(out_vector == exp_vector);
+}
+
+TEST_CASE("test_scale_vector_inverse", "transform")
+{
+    // GIVEN: A vector and a scaling matrix
+    // WHEN: That vector is multiplied by the translation matrix 
+    // THEN: The vector becomes scaled
+    Tuple v1 = create_vector(-4, 6, 8);
+    Matrix scale_mat = scale(2, 3, 4);
+    Tuple exp_vector = create_vector(-2, 2, 2);
+    Matrix scale_inv = scale_mat.inverse();
+
+    Tuple out_vector = scale_inv * v1;
+
+    REQUIRE(out_vector == exp_vector);
 }

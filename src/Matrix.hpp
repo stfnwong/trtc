@@ -46,10 +46,26 @@ class Matrix
         float  operator()(unsigned r, unsigned c) const;
         float& operator()(unsigned r, unsigned c);
 
+        /*
+         * submatrix()
+         *
+         * Return a matrix with the row r and column c removed. The contents
+         * of this matrix object are not modified.
+         */
         Matrix submatrix(unsigned int r, unsigned int c) const;
-        // transpose (copy)
+        /*
+         * transpose()
+         *
+         * Return the transpose of the matrix. The contents of this matrix 
+         * object are not modified
+         */
         Matrix transpose(void) const;
-        // inverse (copy)
+        /*
+         * inverse()
+         *
+         * Return the inverse of the matrix. The contents of this matrix 
+         * object are not modified
+         */
         Matrix inverse(void) const;
         //Matrix tr(void);      // TODO: in-place transpose
         float det(void) const;
@@ -63,6 +79,10 @@ class Matrix
         void fill(float f);
         void clear(void);
 
+        /*
+         * toString()
+         * Return string representation
+         */
         std::string toString(void) const;
 };
 
