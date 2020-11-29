@@ -213,3 +213,94 @@ TEST_CASE("test_rotate_z", "rotate")
     REQUIRE(half_quarter_point == exp_half_quarter_point);
     REQUIRE(full_quarter_point == exp_full_quarter_point);
 }
+
+// ======== SHEAR ======== // 
+TEST_CASE("test_shear_xy", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(5, 3, 4);
+
+    Matrix shear_mat = shear(1, 0, 0, 0, 0, 0);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}
+
+TEST_CASE("test_shear_xz", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(6, 3, 4);
+
+    Matrix shear_mat = shear(0, 1, 0, 0, 0, 0);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}
+
+TEST_CASE("test_shear_yx", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(2, 5, 4);
+
+    Matrix shear_mat = shear(0, 0, 1, 0, 0, 0);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}
+
+TEST_CASE("test_shear_yz", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(2, 7, 4);
+
+    Matrix shear_mat = shear(0, 0, 0, 1, 0, 0);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}
+
+TEST_CASE("test_shear_zx", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(2, 3, 6);
+
+    Matrix shear_mat = shear(0, 0, 0, 0, 1, 0);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}
+
+TEST_CASE("test_shear_zy", "shear")
+{
+    // GIVEN: A point and a shearing matrix
+    // WHEN: That point is multiplied by the shearing matrix 
+    // THEN: The point is sheared
+
+    Tuple p1 = create_point(2, 3, 4);
+    Tuple exp_point = create_point(2, 3, 7);
+
+    Matrix shear_mat = shear(0, 0, 0, 0, 0, 1);
+    Tuple shear_point = shear_mat * p1;
+
+    REQUIRE(shear_point == exp_point);
+}

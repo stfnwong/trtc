@@ -95,3 +95,22 @@ Matrix rotate_z(float angle)
 
     return r;
 }
+
+
+// ======== SHEAR ======== //
+/*
+ * shear()
+ */
+Matrix shear(float xy, float xz, float yx, float yz, float zx, float zy)
+{
+    Matrix s = eye(4);
+
+    s(0, 1) = xy;
+    s(0, 2) = xz;
+    s(1, 0) = yx;
+    s(1, 2) = yz;
+    s(2, 0) = zx;
+    s(2, 1) = zy;
+
+    return s;
+}
