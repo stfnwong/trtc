@@ -58,10 +58,10 @@ Matrix rotate_x(float angle)
 {
     Matrix r = eye(4);
 
-    r(1, 1) = std::cosf(angle);
-    r(1, 2) = std::sinf(-angle);
-    r(2, 1) = std::sinf(angle);
-    r(2, 2) = std::cosf(angle);
+    r(1, 1) = std::cos(angle);
+    r(1, 2) = std::sin(-angle);
+    r(2, 1) = std::sin(angle);
+    r(2, 2) = std::cos(angle);
 
     return r;
 }
@@ -73,10 +73,10 @@ Matrix rotate_y(float angle)
 {
     Matrix r = eye(4);
 
-    r(0, 0) = std::cosf(angle);
-    r(2, 0) = std::sinf(-angle);
-    r(0, 2) = std::sinf(angle);
-    r(2, 2) = std::cosf(angle);
+    r(0, 0) = std::cos(angle);
+    r(2, 0) = std::sin(-angle);
+    r(0, 2) = std::sin(angle);
+    r(2, 2) = std::cos(angle);
 
     return r;
 }
@@ -88,10 +88,10 @@ Matrix rotate_z(float angle)
 {
     Matrix r = eye(4);
 
-    r(0, 0) = std::cosf(angle);
-    r(0, 1) = std::sinf(-angle);
-    r(1, 0) = std::sinf(angle);
-    r(1, 1) = std::cosf(angle);
+    r(0, 0) = std::cos(angle);
+    r(0, 1) = std::sin(-angle);
+    r(1, 0) = std::sin(angle);
+    r(1, 1) = std::cos(angle);
 
     return r;
 }
