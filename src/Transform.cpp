@@ -35,3 +35,17 @@ Matrix scale(float x, float y, float z)
 
     return s;
 }
+
+/*
+ * reflect()
+ */
+Matrix reflect(float x, float y, float z)
+{
+    Matrix r = eye(4);
+
+    r(0,0) = -x;
+    r(1,1) = y;
+    r(2,2) = z;
+
+    return r;
+}

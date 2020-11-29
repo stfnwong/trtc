@@ -88,8 +88,8 @@ TEST_CASE("test_scale_vector", "transform")
 TEST_CASE("test_scale_vector_inverse", "transform")
 {
     // GIVEN: A vector and a scaling matrix
-    // WHEN: That vector is multiplied by the translation matrix 
-    // THEN: The vector becomes scaled
+    // WHEN: That vector is multiplied by the scaling matrix 
+    // THEN: The vector is scaled
     Tuple v1 = create_vector(-4, 6, 8);
     Matrix scale_mat = scale(2, 3, 4);
     Tuple exp_vector = create_vector(-2, 2, 2);
@@ -98,4 +98,33 @@ TEST_CASE("test_scale_vector_inverse", "transform")
     Tuple out_vector = scale_inv * v1;
 
     REQUIRE(out_vector == exp_vector);
+}
+
+TEST_CASE("test_reflect_point_by_scaling", "transform")
+{
+    // GIVEN: A vector and a scaling matrix
+    // WHEN: That vector is multiplied by the scaling matrix where the 
+    // x-component is multiplied by -1.0
+    // THEN: The vector becomes reflected
+    Tuple p1 = create_point(2, 3, 4);
+    Matrix scale_mat = scale(-1, 1, 1);
+    Tuple exp_point = create_point(-2, 3, 4);
+
+    Tuple out_point = scale_mat * p1;
+
+    REQUIRE(out_point == exp_point);
+}
+
+TEST_CASE("test_reflect_point_by_reflect", "transform")
+{
+    // GIVEN: A vector and a reflection matrix
+    // WHEN: That vector is multiplied by the reflection matrix 
+    // THEN: The vector becomes reflected
+    Tuple p1 = create_point(2, 3, 4);
+    Matrix reflect_mat = reflect(1, 1, 1);
+    Tuple exp_point = create_point(-2, 3, 4);
+
+    Tuple out_point = reflect_mat * p1;
+
+    REQUIRE(out_point == exp_point);
 }
