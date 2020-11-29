@@ -1,0 +1,56 @@
+/*
+ * TEST_TRANSFORM
+ */
+
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
+
+#include <cmath>
+#include <iostream> 
+#include <vector>
+
+#include "Transform.hpp"
+
+
+TEST_CASE("test_translate", "transform")
+{
+    // GIVEN: A point and a translation matrix
+    // WHEN: That point is multiplied by the translation matrix 
+    // THEN: The point is translated
+    Tuple p1 = create_point(-3, 4, 5);
+    Tuple exp_point = create_point(2, 1, 7);
+
+    Matrix translation_mat = translate(5, -3, 2);
+
+    Tuple out_point = translation_mat * p1;
+
+    REQUIRE(out_point == exp_point);
+}
+
+TEST_CASE("test_translate_inverse", "transform")
+{
+    // GIVEN: A point and a translation matrix
+    // WHEN: That point is multiplied by the inverse of the translation matrix 
+    // THEN: The point moves in reverse
+    Tuple p1 = create_point(-3, 4, 5);
+    Tuple exp_point = create_point(-8, 7, 3);
+
+    Matrix translation_mat = translate(5, -3, 2);
+    Matrix translation_inv = translation_mat.inverse();
+    Tuple out_point = translation_inv * p1;
+
+    REQUIRE(out_point == exp_point);
+}
+
+TEST_CASE("test_translate_does_not_affect_vectors", "transform")
+{
+    // GIVEN: A vector and a translation matrix
+    // WHEN: That vector is multiplied by the translation matrix 
+    // THEN: The vector remains unchanged
+    Tuple v1 = create_vector(-3, 4, 5);
+    Matrix translation_mat = translate(5, -3, 2);
+
+    Tuple t_vec = translation_mat * v1;
+
+    REQUIRE(t_vec == v1);
+}
