@@ -13,7 +13,7 @@
 
 
 // ======== TRANSLATE ======== // 
-TEST_CASE("test_translate", "transform")
+TEST_CASE("test_translate", "translate")
 {
     // GIVEN: A point and a translation matrix
     // WHEN: That point is multiplied by the translation matrix 
@@ -28,7 +28,7 @@ TEST_CASE("test_translate", "transform")
     REQUIRE(out_point == exp_point);
 }
 
-TEST_CASE("test_translate_inverse", "transform")
+TEST_CASE("test_translate_inverse", "translate")
 {
     // GIVEN: A point and a translation matrix
     // WHEN: That point is multiplied by the inverse of the translation matrix 
@@ -43,7 +43,7 @@ TEST_CASE("test_translate_inverse", "transform")
     REQUIRE(out_point == exp_point);
 }
 
-TEST_CASE("test_translate_does_not_affect_vectors", "transform")
+TEST_CASE("test_translate_does_not_affect_vectors", "translate")
 {
     // GIVEN: A vector and a translation matrix
     // WHEN: That vector is multiplied by the translation matrix 
@@ -57,7 +57,7 @@ TEST_CASE("test_translate_does_not_affect_vectors", "transform")
 }
 
 // ======== SCALE ======== // 
-TEST_CASE("test_scale_point", "transform")
+TEST_CASE("test_scale_point", "scale")
 {
     // GIVEN: A point and a scaling matrix
     // WHEN: That point is multiplied by the translation matrix 
@@ -71,7 +71,7 @@ TEST_CASE("test_scale_point", "transform")
     REQUIRE(out_point == exp_point);
 }
 
-TEST_CASE("test_scale_vector", "transform")
+TEST_CASE("test_scale_vector", "scale")
 {
     // GIVEN: A vector and a scaling matrix
     // WHEN: That vector is multiplied by the translation matrix 
@@ -85,7 +85,7 @@ TEST_CASE("test_scale_vector", "transform")
     REQUIRE(out_vector == exp_vector);
 }
 
-TEST_CASE("test_scale_vector_inverse", "transform")
+TEST_CASE("test_scale_vector_inverse", "scale")
 {
     // GIVEN: A vector and a scaling matrix
     // WHEN: That vector is multiplied by the scaling matrix 
@@ -100,7 +100,7 @@ TEST_CASE("test_scale_vector_inverse", "transform")
     REQUIRE(out_vector == exp_vector);
 }
 
-TEST_CASE("test_reflect_point_by_scaling", "transform")
+TEST_CASE("test_reflect_point_by_scaling", "scale")
 {
     // GIVEN: A vector and a scaling matrix
     // WHEN: That vector is multiplied by the scaling matrix where the 
@@ -115,7 +115,7 @@ TEST_CASE("test_reflect_point_by_scaling", "transform")
     REQUIRE(out_point == exp_point);
 }
 
-TEST_CASE("test_reflect_point_by_reflect", "transform")
+TEST_CASE("test_reflect_point_by_reflect", "scale")
 {
     // GIVEN: A vector and a reflection matrix
     // WHEN: That vector is multiplied by the reflection matrix 
@@ -127,4 +127,89 @@ TEST_CASE("test_reflect_point_by_reflect", "transform")
     Tuple out_point = reflect_mat * p1;
 
     REQUIRE(out_point == exp_point);
+}
+
+// ======== ROTATE ======== // 
+TEST_CASE("test_rotate_x", "rotate")
+{
+    // GIVEN: A point and a rotation matrix
+    // AND half_quarter <- rotation_x( pi / 4)
+    // AND full_quarter <- rotation_x( pi / 2)
+    // WHEN: That point is multiplied by the each of the two rotation matricies 
+    // THEN: The point becomes the point becomes rotated by a half_quarter or
+    // full quarter respectively.
+
+    Tuple p1 = create_point(0, 1, 0);
+    Matrix half_quarter = rotate_x(M_PI / 4);
+    Matrix full_quarter = rotate_x(M_PI / 2);
+
+    Tuple exp_half_quarter_point = create_point(0, std::sqrt(2.0) / 2, std::sqrt(2.0) / 2);
+    Tuple exp_full_quarter_point = create_point(0, 0, 1);
+
+    Tuple half_quarter_point = half_quarter * p1;
+    Tuple full_quarter_point = full_quarter * p1;
+
+    REQUIRE(half_quarter_point == exp_half_quarter_point);
+    REQUIRE(full_quarter_point == exp_full_quarter_point);
+}
+
+TEST_CASE("test_rotate_x_inverse", "rotate")
+{
+    // GIVEN: A point and a half-quarter rotation matrix
+    // WHEN: That point is multiplied by the inverse of the rotation matrix 
+    // THEN: The point becomes reflected
+
+    Tuple p1 = create_point(0, 1, 0);
+    Matrix half_quarter = rotate_x(M_PI / 4);
+    Matrix inv_half_quarter = half_quarter.inverse();
+
+    Tuple exp_half_quarter_point = create_point(0, std::sqrt(2.0) / 2, -std::sqrt(2.0) / 2);
+
+    Tuple half_quarter_point = inv_half_quarter * p1;
+
+    REQUIRE(half_quarter_point == exp_half_quarter_point);
+}
+
+TEST_CASE("test_rotate_y", "rotate")
+{
+    // GIVEN: A point and a rotation matrix
+    // AND half_quarter <- rotation_y( pi / 4)
+    // AND full_quarter <- rotation_y( pi / 2)
+    // WHEN: That point is multiplied by the each of the two rotation matricies 
+    // THEN: The point becomes the point becomes rotated by a half_quarter or
+    // full quarter respectively.
+
+    Tuple p1 = create_point(0, 0, 1);
+    Matrix half_quarter = rotate_y(M_PI / 4);
+    Matrix full_quarter = rotate_y(M_PI / 2);
+    Tuple exp_half_quarter_point = create_point(std::sqrt(2.0) / 2, 0, std::sqrt(2.0) / 2);
+    Tuple exp_full_quarter_point = create_point(1, 0, 0);
+
+    Tuple half_quarter_point = half_quarter * p1;
+    Tuple full_quarter_point = full_quarter * p1;
+
+    REQUIRE(half_quarter_point == exp_half_quarter_point);
+    REQUIRE(full_quarter_point == exp_full_quarter_point);
+}
+
+TEST_CASE("test_rotate_z", "rotate")
+{
+    // GIVEN: A point and a rotation matrix
+    // AND half_quarter <- rotation_z( pi / 4)
+    // AND full_quarter <- rotation_z( pi / 2)
+    // WHEN: That point is multiplied by the each of the two rotation matricies 
+    // THEN: The point becomes the point becomes rotated by a half_quarter or
+    // full quarter respectively.
+
+    Tuple p1 = create_point(0, 1, 0);
+    Matrix half_quarter = rotate_z(M_PI / 4);
+    Matrix full_quarter = rotate_z(M_PI / 2);
+    Tuple exp_half_quarter_point = create_point(-std::sqrt(2.0) / 2, std::sqrt(2.0) / 2, 0);
+    Tuple exp_full_quarter_point = create_point(-1, 0, 0);
+
+    Tuple half_quarter_point = half_quarter * p1;
+    Tuple full_quarter_point = full_quarter * p1;
+
+    REQUIRE(half_quarter_point == exp_half_quarter_point);
+    REQUIRE(full_quarter_point == exp_full_quarter_point);
 }

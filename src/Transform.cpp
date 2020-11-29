@@ -4,7 +4,7 @@
  *
  */
 
-#include <iostream>
+#include <cmath>
 #include "Transform.hpp"
 
 
@@ -46,6 +46,52 @@ Matrix reflect(float x, float y, float z)
     r(0,0) = -x;
     r(1,1) = y;
     r(2,2) = z;
+
+    return r;
+}
+
+// ======== ROTATIONS ======== //
+/*
+ * rotate_x()
+ */
+Matrix rotate_x(float angle)
+{
+    Matrix r = eye(4);
+
+    r(1, 1) = std::cosf(angle);
+    r(1, 2) = std::sinf(-angle);
+    r(2, 1) = std::sinf(angle);
+    r(2, 2) = std::cosf(angle);
+
+    return r;
+}
+
+/*
+ * rotate_y()
+ */
+Matrix rotate_y(float angle)
+{
+    Matrix r = eye(4);
+
+    r(0, 0) = std::cosf(angle);
+    r(2, 0) = std::sinf(-angle);
+    r(0, 2) = std::sinf(angle);
+    r(2, 2) = std::cosf(angle);
+
+    return r;
+}
+
+/*
+ * rotate_z()
+ */
+Matrix rotate_z(float angle)
+{
+    Matrix r = eye(4);
+
+    r(0, 0) = std::cosf(angle);
+    r(0, 1) = std::sinf(-angle);
+    r(1, 0) = std::sinf(angle);
+    r(1, 1) = std::cosf(angle);
 
     return r;
 }
