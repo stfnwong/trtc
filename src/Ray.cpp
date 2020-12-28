@@ -21,3 +21,9 @@ bool Ray::operator!=(const Ray& that) const
 {
     return !(*this == that);
 }
+
+
+Tuple Ray::position(float t) const
+{
+    return this->origin + this->direction * t;
+}

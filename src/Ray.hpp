@@ -18,6 +18,8 @@ struct Ray
 
         bool operator==(const Ray& that) const;
         bool operator!=(const Ray& that) const;
+
+        Tuple position(float t) const;
 };
 
 
