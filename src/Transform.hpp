@@ -44,11 +44,11 @@ Matrix rotate_y(float angle);
  */
 Matrix rotate_z(float angle);
 
-
-
 /*
  * shear()
  */
 Matrix shear(float xy, float xz, float yx, float yz, float zx, float zy);
+
+// TODO: Chain ...
 
 #endif /*__TRANSFORM_HPP*/

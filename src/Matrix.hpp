@@ -80,6 +80,15 @@ class Matrix
         void clear(void);
 
         /*
+         * chain()
+         * Chain a sequence of matrix multiplications together 
+         */
+        // TODO: this should go into Transform.hpp instead
+        //template <typename... Mats> chain(Mats... mats)         // TODO: could be const?
+        //{
+        //}
+
+        /*
          * toString()
          * Return string representation
          */

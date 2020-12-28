@@ -304,3 +304,51 @@ TEST_CASE("test_shear_zy", "shear")
 
     REQUIRE(shear_point == exp_point);
 }
+
+
+
+// Chaining operations 
+// I may leave the implementation of the chain method until later, but 
+// this test should ensure that operations which are applied in a sequence 
+// still produce correct answers
+TEST_CASE("test_matrix_chain_discrete", "matrix")
+{
+    Tuple p = create_point(1, 0, 1);
+
+    Matrix A = rotate_x(M_PI / 2.0);
+    Matrix B = scale(5, 5, 5);
+    Matrix C = translate(10, 5, 7);
+
+    // apply rotation 
+    Tuple exp_rot_point = create_point(1, -1, 0);
+    Tuple rot_point = A * p;
+    REQUIRE(rot_point == exp_rot_point);
+
+    // apply scaling 
+    Tuple exp_scale_point = create_point(5, -5, 0);
+    Tuple scale_point = B * rot_point;
+    REQUIRE(scale_point == exp_scale_point);
+
+    // apply translation
+    Tuple exp_translate_point = create_point(15, 0, 7);
+    Tuple translate_point = C * scale_point;
+    REQUIRE(translate_point == exp_translate_point);
+}
+
+TEST_CASE("test_matrix_chain_composite", "matrix")
+{
+    Tuple p = create_point(1, 0, 1);
+
+    Matrix A = rotate_x(M_PI / 2.0);
+    Matrix B = scale(5, 5, 5);
+    Matrix C = translate(10, 5, 7);
+
+    Tuple exp_transform_point = create_point(15, 0, 7);
+    Matrix composite_matrix = C * B * A;
+    Tuple out_point = composite_matrix * p;
+    
+    REQUIRE(exp_transform_point == out_point);
+}
+
+// TODO: one more test for a template function that performs this multiply
+// TODO: how to reverse the args order?
