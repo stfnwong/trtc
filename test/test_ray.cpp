@@ -44,3 +44,64 @@ TEST_CASE("test_ray_position", "ray")
     for(unsigned int idx = 0; idx < inp_positions.size(); ++idx)
         REQUIRE(ray.position(inp_positions[idx]) == exp_positions[idx]);
 }
+
+TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
+{
+    Tuple o = create_point(0, 0, -5);
+    Tuple d = create_vector(0, 0, 1);
+
+    Ray ray(o, d);
+    Sphere sphere;
+
+    REQUIRE(sphere.center == create_point(0,0,0));
+    std::vector<float> intersections = Intersect(sphere, ray);
+    std::cout << "Found  " << intersections.size() << " intersections " << std::endl;
+
+    REQUIRE(intersections.size() == 2);
+
+    std::cout << __func__ << " 2 point intersection test " << std::endl;
+    std::cout << "t0 : " << intersections[0] << std::endl;
+    std::cout << "t1 : " << intersections[1] << std::endl;
+
+    REQUIRE(intersections[0] == 4.0);
+    REQUIRE(intersections[1] == 6.0);
+}
+
+TEST_CASE("test_ray_sphere_intersect_tangent", "ray")
+{
+    Tuple o = create_point(0, 1, -5);
+    Tuple d = create_vector(0, 0, 1);
+
+    Ray ray(o, d);
+    Sphere sphere;
+
+    REQUIRE(sphere.center == create_point(0,0,0));
+
+    std::vector<float> intersections = Intersect(sphere, ray);
+    std::cout << "Found  " << intersections.size() << " intersections " << std::endl;
+
+    REQUIRE(intersections.size() == 2);
+
+    std::cout << "t0 : " << intersections[0] << std::endl;
+    std::cout << "t1 : " << intersections[1] << std::endl;
+
+    REQUIRE(intersections[0] == 5.0);
+    REQUIRE(intersections[1] == 5.0);
+}
+
+TEST_CASE("test_ray_miss_sphere", "ray")
+{
+    Tuple o = create_point(0, 2, -5);
+    Tuple d = create_vector(0, 0, 1);
+
+    Ray ray(o, d);
+    Sphere sphere;
+
+    REQUIRE(sphere.center == create_point(0,0,0));
+    REQUIRE(sphere.radius == 1.0);
+
+    std::vector<float> intersections = Intersect(sphere, ray);
+    std::cout << "Found  " << intersections.size() << " intersections " << std::endl;
+
+    REQUIRE(intersections.size() == 0);
+}

@@ -5,9 +5,12 @@
 #ifndef __RAY_HPP
 #define __RAY_HPP
 
+#include <vector>
 #include "Tuple.hpp"
 
-
+/*
+ * A ray
+ */
 struct Ray
 {
     Tuple origin;           // point
@@ -21,6 +24,22 @@ struct Ray
 
         Tuple position(float t) const;
 };
+
+/*
+ * Generic sphere 
+ */
+struct Sphere
+{
+    int id;
+    float radius;
+    Tuple center;
+
+    public:
+        Sphere();
+};
+
+
+std::vector<float> Intersect(const Sphere& s, const Ray& r);
 
 
 #endif /*__RAY_HPP*/

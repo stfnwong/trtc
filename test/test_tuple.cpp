@@ -246,6 +246,9 @@ TEST_CASE("test_vector_dot", "infra")
     float result = v1.dot(v2);
 
     REQUIRE(result == exp_result);
+
+    // the standalone dot() method does the same thing 
+    REQUIRE(dot(v1, v2) == exp_result);
 }
 
 TEST_CASE("test_vector_cross", "infra")
