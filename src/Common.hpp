@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-#define COMP_EPSILON 1e-5
+#define COMP_EPSILON 1e-6
 
 
 inline bool equal(float a, float b)

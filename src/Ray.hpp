@@ -5,6 +5,7 @@
 #ifndef __RAY_HPP
 #define __RAY_HPP
 
+#include <string>
 #include <vector>
 #include "Tuple.hpp"
 
@@ -23,6 +24,8 @@ struct Ray
         bool operator!=(const Ray& that) const;
 
         Tuple position(float t) const;
+
+        std::string toString(void) const;
 };
 
 /*
@@ -36,6 +39,7 @@ struct Sphere
 
     public:
         Sphere();
+        std::string toString(void) const;
 };
 
 

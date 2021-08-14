@@ -245,11 +245,57 @@ TEST_CASE("test_vector_dot", "infra")
 
     float result = v1.dot(v2);
 
-    REQUIRE(result == exp_result);
+    REQUIRE(equal(result, exp_result));
 
     // the standalone dot() method does the same thing 
-    REQUIRE(dot(v1, v2) == exp_result);
+    REQUIRE(equal(dot(v1, v2), exp_result));
 }
+
+TEST_CASE("test_vector_dot_2", "infra")
+{
+    Tuple a = create_vector(0, 1, -5);
+    Tuple b = create_vector(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+// These are all just combinations of points and vectors
+TEST_CASE("test_vector_dot_3", "infra")
+{
+    Tuple a = create_point(0, 1, -5);
+    Tuple b = create_point(0, 0, 1);
+
+    float exp_result = -4.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+TEST_CASE("test_vector_dot_4", "infra")
+{
+    Tuple a = create_point(0, 1, -5);
+    Tuple b = create_vector(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+TEST_CASE("test_vector_dot_5", "infra")
+{
+    Tuple a = create_vector(0, 1, -5);
+    Tuple b = create_point(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
 
 TEST_CASE("test_vector_cross", "infra")
 {

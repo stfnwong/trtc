@@ -60,8 +60,8 @@ TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
     REQUIRE(intersections.size() == 2);
 
     std::cout << __func__ << " 2 point intersection test " << std::endl;
-    std::cout << "t0 : " << intersections[0] << std::endl;
-    std::cout << "t1 : " << intersections[1] << std::endl;
+    std::cout << "t0 : " << intersections[0] << " expected 4.0 " << std::endl;
+    std::cout << "t1 : " << intersections[1] << " expected 6.0 " << std::endl;
 
     REQUIRE(intersections[0] == 4.0);
     REQUIRE(intersections[1] == 6.0);
@@ -82,8 +82,8 @@ TEST_CASE("test_ray_sphere_intersect_tangent", "ray")
 
     REQUIRE(intersections.size() == 2);
 
-    std::cout << "t0 : " << intersections[0] << std::endl;
-    std::cout << "t1 : " << intersections[1] << std::endl;
+    std::cout << "t0 : " << intersections[0] << " expected 5.0 " << std::endl;
+    std::cout << "t1 : " << intersections[1] << " expected 5.0 " << std::endl;
 
     REQUIRE(intersections[0] == 5.0);
     REQUIRE(intersections[1] == 5.0);
