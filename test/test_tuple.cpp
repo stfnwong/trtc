@@ -262,7 +262,7 @@ TEST_CASE("test_vector_dot_2", "infra")
     REQUIRE(equal(result, exp_result));
 }
 
-// These are all just combinations of points and vectors
+// These are all just combinations of dot products on points and vectors
 TEST_CASE("test_vector_dot_3", "infra")
 {
     Tuple a = create_point(0, 1, -5);
@@ -296,7 +296,7 @@ TEST_CASE("test_vector_dot_5", "infra")
     REQUIRE(equal(result, exp_result));
 }
 
-
+// Tuple cross product
 TEST_CASE("test_vector_cross", "infra")
 {
     Tuple v1 = create_vector(1, 2, 3);
