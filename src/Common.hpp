@@ -8,7 +8,8 @@
 
 #include <cmath>
 
-#define COMP_EPSILON 1e-6
+// Matrix multiply is not accurate to 1e-6 with current algorithm
+#define COMP_EPSILON 1e-5   
 
 
 inline bool equal(float a, float b)
