@@ -437,6 +437,7 @@ TEST_CASE("test_matrix_invert", "matrix")
     REQUIRE(equal(mat44_inv(3, 2), exp_b32));
     REQUIRE(equal(mat44_inv(2, 3), exp_b23));
 
+    // TODO: something wrong here 
     REQUIRE(mat44_inv == mat44_exp_inv);
 
     // Some more matricies 
