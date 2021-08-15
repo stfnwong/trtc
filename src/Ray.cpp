@@ -79,11 +79,18 @@ std::vector<float> Intersect(const Sphere& sphere, const Ray& ray)
 {
     // TODO : in this implementation the sphere is always a unit sphere 
     // centered at (0,0,0)
+    Tuple ray_origin_vector = ray.origin;
+    ray_origin_vector.toVector(); 
+    std::cout << "ray_origin_vector: " << ray_origin_vector.toString() << std::endl;
 
-    Tuple oc = ray.origin - sphere.center;
+    Tuple oc = ray_origin_vector - sphere.center;
+    oc.toVector();
+    //Tuple oc = ray.origin.toVector() - sphere.center;
 
     std::cout << "oc     : " << oc.toString() << std::endl;
     std::cout << "sphere : " << sphere.toString() << std::endl;
+    std::cout << "ray origin : " << ray.origin.toString() << std::endl;
+    std::cout << "ray direction : " << ray.direction.toString() << std::endl;
 
     float a    = dot(ray.direction, ray.direction);
     float b    = 2.0 * dot(ray.direction, oc);
@@ -98,6 +105,8 @@ std::vector<float> Intersect(const Sphere& sphere, const Ray& ray)
     std::cout << "b    : " << b << std::endl;
     std::cout << "c    : " << c << std::endl;
     std::cout << "disc : " << disc << std::endl;
+
+    std::cout << "dot(oc, oc) : " << dot(oc, oc) << " , r*r = " << sphere.radius * sphere.radius << std::endl;
 
     if(disc < 0.0)  // no hits
         return std::vector<float>{};

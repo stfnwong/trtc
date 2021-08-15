@@ -10,6 +10,10 @@
 #include "Common.hpp"
 #include "Tuple.hpp"
 
+// TODO: debug, remove
+#include <iostream>
+#include <iomanip>
+
 /*
  * Tuple Constructors
  */
@@ -203,6 +207,13 @@ float& Tuple::operator[](unsigned int idx)
  */
 float Tuple::dot(const Tuple& that) const
 {
+    // TODO: debug, remove 
+    std::cout << "[" << __func__ << "] intermediate values (mac print debug)" << std::endl;
+    std::cout << "this->x * that.x : " << this->x * that.x << std::endl;
+    std::cout << "this->y * that.y : " << this->y * that.y << std::endl;
+    std::cout << "this->z * that.z : " << this->z * that.z << std::endl;
+    std::cout << "this->w * that.w : " << this->w * that.w << std::endl;
+
     return (this->x * that.x) +
            (this->y * that.y) + 
            (this->z * that.z) + 
@@ -277,6 +288,8 @@ void Tuple::toVector(void)
 {
     this->w = 0.0;
 }
+
+
 
 
 /*
