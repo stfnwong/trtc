@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "Tuple.hpp"
+#include "Shape.hpp"        // TODO: this should not stay here
 
 /*
  * A ray
@@ -27,21 +28,6 @@ struct Ray
 
         std::string toString(void) const;
 };
-
-/*
- * Generic sphere 
- */
-struct Sphere
-{
-    int id;
-    float radius;
-    Tuple center;
-
-    public:
-        Sphere();
-        std::string toString(void) const;
-};
-
 
 std::vector<float> Intersect(const Sphere& s, const Ray& r);
 

@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "Ray.hpp"
+#include "Shape.hpp"
 #include "Tuple.hpp"
 
 
@@ -45,6 +46,8 @@ TEST_CASE("test_ray_position", "ray")
         REQUIRE(ray.position(inp_positions[idx]) == exp_positions[idx]);
 }
 
+
+// Ray Intersection tests
 TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
 {
     Tuple o = create_point(0, 0, -5);
@@ -93,3 +96,6 @@ TEST_CASE("test_ray_miss_sphere", "ray")
 
     REQUIRE(intersections.size() == 0);
 }
+
+
+

@@ -2,7 +2,6 @@
  * RAY
  */
 
-#include <cstdlib>
 #include <cmath>
 #include "Ray.hpp"
 #include <sstream>
@@ -52,23 +51,8 @@ std::string Ray::toString(void) const
     return oss.str();
 }
 
-// ======== SPHERE ======== //
-Sphere::Sphere() : id(std::rand()), radius(1.0), center(create_point(0, 0, 0)) {}
 
-std::string Sphere::toString(void) const
-{
-    std::ostringstream oss;
-
-    oss << "Sphere(" 
-        << this->center.x << ","
-        << this->center.y << ","
-        << this->center.z << ", r " 
-        << this->radius << ")";
-
-    return oss.str();
-}
-
-
+// TODO; change over to use generic shape
 // ======== INTERSECTIONS ======== //
 std::vector<float> Intersect(const Sphere& sphere, const Ray& ray)
 {
