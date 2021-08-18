@@ -29,7 +29,6 @@ struct Ray
         std::string toString(void) const;
 };
 
-std::vector<float> Intersect(const Sphere& s, const Ray& r);
 
 
 #endif /*__RAY_HPP*/

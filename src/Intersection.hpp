@@ -12,7 +12,9 @@
 #include "Ray.hpp"
 #include "Shape.hpp"
 
-
+/*
+ * Intersection
+ */
 struct Intersection
 {
     std::shared_ptr<Shape> target;    
@@ -26,8 +28,28 @@ struct Intersection
 };
 
 
-// TODO: later
-//Intersection Intersect(const Shape& shape, const Ray& ray);
+// Initially this is just going to be a vector over an Intersection
+
+/*
+ * Intersections
+ */
+struct Intersections
+{
+    std::vector<Intersection> is;
+
+    public:
+        Intersections();
+        Intersections(const std::vector<Intersection>& is);
+        unsigned int count(void) const;
+
+        // Allow array access 
+        Intersection  operator[](const unsigned int idx);
+        //Intersection& operator[](const unsigned int idx);
+};
+
+Intersections Intersect(const Shape& shape, const Ray& ray);
+
+//Intersection Hit(const std::vector<Intersection>& is);
 
 
 #endif /*__INTERSECTION_HPP*/
