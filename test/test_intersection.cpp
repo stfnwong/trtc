@@ -38,14 +38,15 @@ TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
     Tuple d = create_vector(0, 0, 1);
 
     Ray ray(o, d);
-    Sphere sphere;
+    auto sphere = std::make_shared<Sphere>();
+    //Sphere sphere;
 
-    REQUIRE(sphere.center == create_point(0,0,0));
-    std::vector<float> intersections = Intersect(sphere, ray);
+    REQUIRE(sphere->center == create_point(0,0,0));
+    Intersections intersections = Intersect(sphere, ray);
 
-    REQUIRE(intersections.size() == 2);
-    REQUIRE(intersections[0] == 4.0);
-    REQUIRE(intersections[1] == 6.0);
+    REQUIRE(intersections.count() == 2);
+    REQUIRE(intersections[0].t == 4.0);
+    REQUIRE(intersections[1].t == 6.0);
 }
 
 TEST_CASE("test_ray_sphere_intersect_tangent", "ray")
@@ -54,15 +55,16 @@ TEST_CASE("test_ray_sphere_intersect_tangent", "ray")
     Tuple d = create_vector(0, 0, 1);
 
     Ray ray(o, d);
-    Sphere sphere;
+    auto sphere = std::make_shared<Sphere>();
+    //Sphere sphere;
 
-    REQUIRE(sphere.center == create_point(0,0,0));
+    REQUIRE(sphere->center == create_point(0,0,0));
 
-    std::vector<float> intersections = Intersect(sphere, ray);
+    Intersections intersections = Intersect(sphere, ray);
 
     REQUIRE(intersections.count() == 2);
-    REQUIRE(intersections[0] == 5.0);
-    REQUIRE(intersections[1] == 5.0);
+    REQUIRE(intersections[0].t == 5.0);
+    REQUIRE(intersections[1].t == 5.0);
 }
 
 TEST_CASE("test_ray_miss_sphere", "ray")
@@ -71,14 +73,15 @@ TEST_CASE("test_ray_miss_sphere", "ray")
     Tuple d = create_vector(0, 0, 1);
 
     Ray ray(o, d);
-    Sphere sphere;
+    auto sphere = std::make_shared<Sphere>();
+    //Sphere sphere;
 
-    REQUIRE(sphere.center == create_point(0,0,0));
-    REQUIRE(sphere.radius == 1.0);
+    REQUIRE(sphere->center == create_point(0,0,0));
+    REQUIRE(sphere->radius == 1.0);
 
-    std::vector<float> intersections = Intersect(sphere, ray);
+    Intersections intersections = Intersect(sphere, ray);
 
-    REQUIRE(intersections.size() == 0);
+    REQUIRE(intersections.count() == 0);
 }
 
 
@@ -89,7 +92,8 @@ TEST_CASE("test_intersect_ray_sphere_with_new_structure", "intersection")
     Tuple d = create_vector(0, 0, 1);
 
     Ray ray(o, d);
-    Sphere sphere;
+    auto sphere = std::make_shared<Sphere>();
+    //Sphere sphere;
     
     Intersections ray_intersections = Intersect(sphere, ray);
 }
@@ -106,7 +110,7 @@ TEST_CASE("test_intersections_function", "intersection")
 
     Intersections test_intersections = Intersections(is_vector);
 
-    REQUIRE(test_intersections.size() == 2);
+    REQUIRE(test_intersections.count() == 2);
     REQUIRE(equal_eps(test_intersections[0].t, 1.0, 1e-6));
     REQUIRE(equal_eps(test_intersections[1].t, 2.0, 1e-6));
 }

@@ -24,6 +24,8 @@ struct Intersection
         Intersection();
         Intersection(std::shared_ptr<Shape> shape, float t);
 
+        bool operator<(const Intersection& that) const;
+
         std::string toString(void) const;
 };
 
@@ -32,6 +34,7 @@ struct Intersection
 
 /*
  * Intersections
+ * TODO: needs to be sortable...
  */
 struct Intersections
 {
@@ -41,15 +44,19 @@ struct Intersections
         Intersections();
         Intersections(const std::vector<Intersection>& is);
         unsigned int count(void) const;
+        void add(const Intersection& ii);
 
         // Allow array access 
         Intersection  operator[](const unsigned int idx);
         //Intersection& operator[](const unsigned int idx);
 };
 
-Intersections Intersect(const Shape& shape, const Ray& ray);
 
-//Intersection Hit(const std::vector<Intersection>& is);
+/*
+ * Compute an intersection 
+ */
+Intersections Intersect(std::shared_ptr<Sphere> sphere, const Ray& ray);
+//Intersections Intersect(std::shared_ptr<Shape> shape, const Ray& ray);
 
 
 #endif /*__INTERSECTION_HPP*/
