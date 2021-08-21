@@ -19,7 +19,6 @@
 // Data structure tests 
 TEST_CASE("test_intersection_struct", "intersection")
 {
-    //Sphere sphere;    
     auto sphere = std::make_shared<Sphere>();
     float test_dist = 3.5f;
 
@@ -29,8 +28,6 @@ TEST_CASE("test_intersection_struct", "intersection")
     REQUIRE(test_intersection.target == sphere);
 }
 
-
-
 // Ray intersection tests
 TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
 {
@@ -39,12 +36,11 @@ TEST_CASE("test_ray_sphere_intersect_two_points", "ray")
 
     Ray ray(o, d);
     auto sphere = std::make_shared<Sphere>();
-    //Sphere sphere;
 
     REQUIRE(sphere->center == create_point(0,0,0));
-    Intersections intersections = Intersect(sphere, ray);
+    std::vector<Intersection> intersections = Intersect(sphere, ray);
 
-    REQUIRE(intersections.count() == 2);
+    REQUIRE(intersections.size() == 2);
     REQUIRE(intersections[0].t == 4.0);
     REQUIRE(intersections[1].t == 6.0);
 }
@@ -56,13 +52,12 @@ TEST_CASE("test_ray_sphere_intersect_tangent", "ray")
 
     Ray ray(o, d);
     auto sphere = std::make_shared<Sphere>();
-    //Sphere sphere;
 
     REQUIRE(sphere->center == create_point(0,0,0));
 
-    Intersections intersections = Intersect(sphere, ray);
+    std::vector<Intersection> intersections = Intersect(sphere, ray);
 
-    REQUIRE(intersections.count() == 2);
+    REQUIRE(intersections.size() == 2);
     REQUIRE(intersections[0].t == 5.0);
     REQUIRE(intersections[1].t == 5.0);
 }
@@ -74,16 +69,14 @@ TEST_CASE("test_ray_miss_sphere", "ray")
 
     Ray ray(o, d);
     auto sphere = std::make_shared<Sphere>();
-    //Sphere sphere;
 
     REQUIRE(sphere->center == create_point(0,0,0));
     REQUIRE(sphere->radius == 1.0);
 
-    Intersections intersections = Intersect(sphere, ray);
+    std::vector<Intersection> intersections = Intersect(sphere, ray);
 
-    REQUIRE(intersections.count() == 0);
+    REQUIRE(intersections.size() == 0);
 }
-
 
 
 TEST_CASE("test_intersect_ray_sphere_with_new_structure", "intersection")
@@ -93,24 +86,62 @@ TEST_CASE("test_intersect_ray_sphere_with_new_structure", "intersection")
 
     Ray ray(o, d);
     auto sphere = std::make_shared<Sphere>();
-    //Sphere sphere;
     
-    Intersections ray_intersections = Intersect(sphere, ray);
+    std::vector<Intersection> ray_intersections = Intersect(sphere, ray);
 }
 
 
-
-TEST_CASE("test_intersections_function", "intersection")
+TEST_CASE("test_hit_all_positive_t", "intersection")
 {
     auto sphere = std::make_shared<Sphere>();
+    
     Intersection i1 = Intersection(sphere, 1.0);
     Intersection i2 = Intersection(sphere, 2.0);
 
-    std::vector<Intersection> is_vector = std::vector<Intersection>{i1, i2};
+    std::vector<Intersection> inp_intersections = std::vector<Intersection>{i1, i2};
 
-    Intersections test_intersections = Intersections(is_vector);
+    Intersection tt = Hit(inp_intersections);
+    REQUIRE(tt == i1);
+}
 
-    REQUIRE(test_intersections.count() == 2);
-    REQUIRE(equal_eps(test_intersections[0].t, 1.0, 1e-6));
-    REQUIRE(equal_eps(test_intersections[1].t, 2.0, 1e-6));
+TEST_CASE("test_hit_all_negative_t", "intersection")
+{
+    auto sphere = std::make_shared<Sphere>();
+    
+    Intersection i1 = Intersection(sphere, -1.0);
+    Intersection i2 = Intersection(sphere, -2.0);
+
+    std::vector<Intersection> inp_intersections = std::vector<Intersection>{i1, i2};
+
+    Intersection tt = Hit(inp_intersections);
+    REQUIRE(tt == Intersection());  // All intersections are behind camera, therefore we expect an empty set
+}
+
+TEST_CASE("test_hit_some_positive_t", "intersection")
+{
+    auto sphere = std::make_shared<Sphere>();
+    
+    Intersection i1 = Intersection(sphere, -1.0);
+    Intersection i2 = Intersection(sphere,  1.0);
+
+    std::vector<Intersection> inp_intersections = std::vector<Intersection>{i1, i2};
+
+    Intersection tt = Hit(inp_intersections);
+    REQUIRE(tt == i2);
+}
+
+
+TEST_CASE("test_hit_is_always_lowest_nonnegative", "intersection")
+{
+    auto sphere = std::make_shared<Sphere>();
+    
+    std::vector<Intersection> inp_intersections = Intersections(
+            Intersection(sphere, 5.0f),
+            Intersection(sphere, 7.0f),
+            Intersection(sphere, -3.0f),
+            Intersection(sphere, 2.0f)
+    );
+
+    Intersection tt = Hit(inp_intersections);
+    REQUIRE(tt == Intersection(sphere, 2.0f));
 }

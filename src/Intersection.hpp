@@ -5,6 +5,7 @@
 #ifndef __INTERSECTION_HPP
 #define __INTERSECTION_HPP
 
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -17,46 +18,36 @@
  */
 struct Intersection
 {
-    std::shared_ptr<Shape> target;    
+    std::shared_ptr<const Shape> target;    
     float t;
 
     public:
         Intersection();
-        Intersection(std::shared_ptr<Shape> shape, float t);
+        Intersection(std::shared_ptr<const Shape> shape, float t);
 
         bool operator<(const Intersection& that) const;
+        bool operator==(const Intersection& that) const;
+        bool operator!=(const Intersection& that) const;
+
+        float distance(void) const;
 
         std::string toString(void) const;
 };
 
 
-// Initially this is just going to be a vector over an Intersection
-
-/*
- * Intersections
- * TODO: needs to be sortable...
- */
-struct Intersections
+// Create an intersection vector out of a collection of intersections
+template <typename ...Args> std::vector<Intersection> Intersections(const Args&... args)
 {
-    std::vector<Intersection> is;
-
-    public:
-        Intersections();
-        Intersections(const std::vector<Intersection>& is);
-        unsigned int count(void) const;
-        void add(const Intersection& ii);
-
-        // Allow array access 
-        Intersection  operator[](const unsigned int idx);
-        //Intersection& operator[](const unsigned int idx);
-};
-
+    std::vector<Intersection> is{ args... };
+    std::sort(is.begin(), is.end());
+    return  is;
+}
 
 /*
  * Compute an intersection 
  */
-Intersections Intersect(std::shared_ptr<Sphere> sphere, const Ray& ray);
-//Intersections Intersect(std::shared_ptr<Shape> shape, const Ray& ray);
+std::vector<Intersection> Intersect(std::shared_ptr<const Sphere> sphere, const Ray& ray);
 
+Intersection Hit(const std::vector<Intersection>& intersections);
 
 #endif /*__INTERSECTION_HPP*/

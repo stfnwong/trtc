@@ -18,7 +18,8 @@ std::string Shape::toString(void) const
 {
     std::ostringstream oss;
 
-    oss << "Shape(" << this->id << ")";
+    //oss << "Shape(" << unsigned(this->id) << ")";         // <- TODO : segfault here with shared_ptr<Shape>
+    oss << "Shape()" << std::endl;
 
     return oss.str();
 }
