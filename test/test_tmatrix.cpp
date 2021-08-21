@@ -225,3 +225,50 @@ TEST_CASE("test_submatrix_mat4", "matrix")
 
     REQUIRE(sub_mat == exp_sub_mat);
 }
+
+// Return a copy of the transposed matrix, leaving original intact
+TEST_CASE("test_matrix_transposed", "matrix")
+{
+    std::vector<float> inp_mat_vals = {
+        0, 9, 3, 0,
+        9, 8, 0, 8,
+        1, 8, 5, 3,
+        0, 0, 5, 8
+    };
+    std::vector<float> exp_mat_vals = {
+        0, 9, 1, 0,
+        9, 8, 8, 0,
+        3, 0, 5, 5,
+        0, 8, 3, 8
+    };
+
+    Mat4 inp_mat(inp_mat_vals);
+    Mat4 exp_mat(exp_mat_vals);
+
+    Mat4 tr_mat = inp_mat.transposed();
+    REQUIRE(tr_mat == exp_mat);
+}
+
+
+// Transpose matrix in place
+TEST_CASE("test_matrix_transpose", "matrix")
+{
+    std::vector<float> inp_mat_vals = {
+        0, 9, 3, 0,
+        9, 8, 0, 8,
+        1, 8, 5, 3,
+        0, 0, 5, 8
+    };
+    std::vector<float> exp_mat_vals = {
+        0, 9, 1, 0,
+        9, 8, 8, 0,
+        3, 0, 5, 5,
+        0, 8, 3, 8
+    };
+
+    Mat4 test_mat(inp_mat_vals);
+    Mat4 exp_mat(exp_mat_vals);
+
+    test_mat.transpose();
+    REQUIRE(test_mat == exp_mat);
+}

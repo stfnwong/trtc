@@ -7,6 +7,7 @@
 #define __TMATRIX_HPP
 
 #include <array>
+#include <algorithm>
 #include <initializer_list>
 #include <stdexcept>
 #include <string>
@@ -26,7 +27,7 @@ template <int ROWS, int COLS> class TMatrix
         float data[ROWS * COLS];
 
     private:
-        int rc_to_pos(int r, int c) const;
+        int rc_to_idx(int r, int c) const;
 
     public:
         // constructors
@@ -50,20 +51,21 @@ template <int ROWS, int COLS> class TMatrix
 
         // utils 
         //
-        std::array<int, 2> shape(void) const;
+        std::array<int, 2>      shape(void) const;
         TMatrix<ROWS-1, COLS-1> submatrix(int r, int c) const;
+        void                    transpose(void);
+        TMatrix<ROWS, COLS>     transposed(void) const;
 
         //float det(void) const;
         //float minor(int r, int int c) const;
         //float cofactor(int r, int int c) const;
-
 
         std::string toString(void) const;
 };
 
 
 // Index conversion
-template <int ROWS, int COLS> int TMatrix<ROWS, COLS>::rc_to_pos(int r, int c) const
+template <int ROWS, int COLS> int TMatrix<ROWS, COLS>::rc_to_idx(int r, int c) const
 {
     return (r * COLS) + c;
 }
@@ -80,7 +82,7 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix()
     for(int rr = 0; rr < ROWS; ++rr)
     {
         for(int cc = 0; cc < COLS; ++cc)
-            this->data[this->rc_to_pos(rr, cc)] = 0.0f;
+            this->data[this->rc_to_idx(rr, cc)] = 0.0f;
     }
 }
 
@@ -96,7 +98,7 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix(const std::vector<flo
     {
         for(int c = 0; c < COLS; ++c)
         {
-            this->data[this->rc_to_pos(r, c)] = *it;
+            this->data[this->rc_to_idx(r, c)] = *it;
             it++;
         }
     }
@@ -114,7 +116,7 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix(std::initializer_list
     {
         for(int c = 0; c < COLS; ++c)
         {
-            this->data[this->rc_to_pos(r, c)] = *it;
+            this->data[this->rc_to_idx(r, c)] = *it;
             it++;
         }
     }
@@ -135,7 +137,7 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix(std::initializer_list
             if(cc >= COLS)
                 break;
 
-            this->data[this->rc_to_pos(rr, cc)] = val;
+            this->data[this->rc_to_idx(rr, cc)] = val;
             cc++;
         }
         rr++;
@@ -149,14 +151,14 @@ template <int ROWS, int COLS> float TMatrix<ROWS, COLS>::operator()(int r, int c
 {
     if(r >= ROWS || c >= COLS)
         throw std::out_of_range("Subscript out of bounds");
-    return this->data[rc_to_pos(r, c)];
+    return this->data[rc_to_idx(r, c)];
 }
 
 template <int ROWS, int COLS> float& TMatrix<ROWS, COLS>::operator()(int r, int c)
 {
     if(r >= ROWS || c >= COLS)
         throw std::out_of_range("Subscript out of bounds");
-    return this->data[rc_to_pos(r, c)];
+    return this->data[rc_to_idx(r, c)];
 }
 
 template<int ROWS, int COLS> bool TMatrix<ROWS, COLS>::operator==(const TMatrix& that) const
@@ -165,7 +167,7 @@ template<int ROWS, int COLS> bool TMatrix<ROWS, COLS>::operator==(const TMatrix&
     {
         for(int cc = 0; cc < COLS; ++cc)
         {
-            if(!equal_eps(this->data[rc_to_pos(rr, cc)], that.data[rc_to_pos(rr, cc)], 1e-6))
+            if(!equal_eps(this->data[rc_to_idx(rr, cc)], that.data[this->rc_to_idx(rr, cc)], 1e-6))
                 return false;
         }
     }
@@ -197,7 +199,7 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::operator*
         {
             elem = 0.0;
             for(kk = 0; kk < COLS; ++kk)
-                elem += this->data[this->rc_to_pos(rr, kk)] * that(kk, cc);
+                elem += this->data[this->rc_to_idx(rr, kk)] * that(kk, cc);
             out_mat(rr, cc) = elem;
         }
     }
@@ -220,7 +222,7 @@ template <int ROWS, int COLS> Tuple TMatrix<ROWS, COLS>::operator*(const Tuple& 
         elem = 0.0;
         for(kk = 0; kk < COLS; ++kk)
         {
-            elem += this->data[this->rc_to_pos(rr, kk)] * that[kk];
+            elem += this->data[this->rc_to_idx(rr, kk)] * that[kk];
         }
         out_tuple[rr] = elem;
     }
@@ -250,7 +252,7 @@ template <int ROWS, int COLS> TMatrix<ROWS-1, COLS-1> TMatrix<ROWS, COLS>::subma
         {
             if(cc == c)
                 continue;
-            submat(ro, co) = this->data[this->rc_to_pos(rr, cc)];
+            submat(ro, co) = this->data[this->rc_to_idx(rr, cc)];
             co++;
         }
         co = 0;
@@ -260,10 +262,39 @@ template <int ROWS, int COLS> TMatrix<ROWS-1, COLS-1> TMatrix<ROWS, COLS>::subma
     return submat;
 }
 
+/*
+ * transpose()
+ */
+template <int ROWS, int COLS> void TMatrix<ROWS, COLS>::transpose(void) 
+{
+    for(int rr = 0; rr < (ROWS-1); ++rr)
+    {
+        for(int cc = (rr+1); cc < COLS; ++cc)
+        {
+            std::swap(
+                    this->data[this->rc_to_idx(rr, cc)],
+                    this->data[this->rc_to_idx(cc, rr)]
+            );
+        }
+    }
+}
 
-//template <int ROWS, int COLS> Tuple TMatrix<ROWS, COLS>::operator*(const TMatrix& that) const
-//{
-//}
+/*
+ * transposed()
+ */
+template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::transposed(void) const
+{
+    TMatrix<ROWS, COLS> out_mat;
+
+    for(int rr = 0; rr < COLS; ++rr)
+    {
+        for(int cc = 0; cc < COLS; ++cc)
+            out_mat(rr, cc) = this->data[this->rc_to_idx(cc, rr)];
+    }
+
+    return out_mat;
+}
+
 
 
 /*
@@ -279,7 +310,7 @@ template <int ROWS, int COLS> std::string TMatrix<ROWS, COLS>::toString(void) co
     {
         for(int c = 0; c < COLS; ++c)
         {
-            oss << std::setw(4) << std::left << this->data[this->rc_to_pos(r, c)] << " ";
+            oss << std::setw(4) << std::left << this->data[this->rc_to_idx(r, c)] << " ";
         }
         oss << std::endl;
 
