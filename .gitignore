@@ -10,3 +10,6 @@ tags
 
 # Ignore caches 
 .ccls-cache/
+
+# Ignore notes (anything ending in *_notes)
+*_notes
