@@ -33,7 +33,8 @@ template <int ROWS, int COLS> class TMatrix
 
 
 // Index conversion
-
+template <int ROWS, int COLS> unsigned TMatrix<ROWS, COLS>::rc_to_pos(unsigned r, unsigned c) const
+{
     return (r * COLS) + c;
 }
 
