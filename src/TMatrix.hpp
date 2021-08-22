@@ -31,8 +31,8 @@ template <int ROWS, int COLS> class TMatrix
 
     public:
         // constructors
-        //explicit TMatrix(const std::vector<float>& vals);
         TMatrix();
+        TMatrix(float v);           // ctor to fill with value
         TMatrix(const std::vector<float>& vals);
         TMatrix(std::initializer_list<float> vals);
         TMatrix(std::initializer_list<std::initializer_list<float>> vals);
@@ -50,17 +50,38 @@ template <int ROWS, int COLS> class TMatrix
         // TODO: multiply with Tuple
 
         // utils 
-        //
         std::array<int, 2>      shape(void) const;
-        TMatrix<ROWS-1, COLS-1> submatrix(int r, int c) const;
-        void                    transpose(void);
-        TMatrix<ROWS, COLS>     transposed(void) const;
+        int                     rows(void) const;
+        int                     cols(void) const;
 
-        //float det(void) const;
-        //float minor(int r, int int c) const;
-        //float cofactor(int r, int int c) const;
+        // Matrix ops 
+        TMatrix<ROWS-1, COLS-1> submatrix(int r, int c) const;
+        float                   minor(int r, int c) const;
+        float                   cofactor(int r, int c) const;
+        float                   det(void) const;
+
+        void                    transpose(void);
+        void                    inverse(void);
+        TMatrix<ROWS, COLS>     transposed(void) const;
+        TMatrix<ROWS, COLS>     inversed(void) const;
 
         std::string toString(void) const;
+
+        template <int R = ROWS, int C = COLS> typename std::enable_if<(R > 2) && (C > 2), float>::type
+        minor(int r, int c) const;
+        //{
+        //    return this->submatrix(r, c).det();
+
+        //    //TMatrix<ROWS-1, COLS-1> submat = this->submatrix(r, c);
+        //    //return submat.det();
+        //}
+
+        //template <int R = ROWS, int C = COLS> typename std::enable_if<(R == 2) && (C == 2), float>::type
+        //det(void) const
+        //{
+        //    return (this->data[0] * this->data[3]) - (this->data[1] * this->data[2]);
+        //}
+
 };
 
 
@@ -71,6 +92,17 @@ template <int ROWS, int COLS> int TMatrix<ROWS, COLS>::rc_to_idx(int r, int c) c
 }
 
 // ================ CONSTRUCTORS ================ //
+template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix(float v)
+{
+    if(ROWS == 0 || COLS == 0)
+        throw std::range_error("TMatrix: 0-size dimension is undefined");
+
+    for(int rr = 0; rr < ROWS; ++rr)
+    {
+        for(int cc = 0; cc < COLS; ++cc)
+            this->data[this->rc_to_idx(rr, cc)] = v;
+    }
+}
 
 // Ctor from flat array
 template <int ROWS, int COLS> TMatrix<ROWS, COLS>::TMatrix()
@@ -231,11 +263,26 @@ template <int ROWS, int COLS> Tuple TMatrix<ROWS, COLS>::operator*(const Tuple& 
 }
 
 
-// ================ MATHEMATICAL OPERATORS ================ //
+// ================ UTILS ================ //
 template <int ROWS, int COLS> std::array<int, 2> TMatrix<ROWS, COLS>::shape(void) const
 {
     return std::array<int, 2>{ROWS, COLS};
 }
+
+template <int ROWS, int COLS> int TMatrix<ROWS, COLS>::rows(void) const
+{
+    return ROWS;
+}
+
+template <int ROWS, int COLS> int TMatrix<ROWS, COLS>::cols(void) const
+{
+    return COLS;
+}
+
+
+
+// ================ MATRIX OPERATORS ================ //
+
 
 template <int ROWS, int COLS> TMatrix<ROWS-1, COLS-1> TMatrix<ROWS, COLS>::submatrix(int r, int c) const
 {
@@ -263,6 +310,50 @@ template <int ROWS, int COLS> TMatrix<ROWS-1, COLS-1> TMatrix<ROWS, COLS>::subma
 }
 
 /*
+ * minor()
+ */
+//template <int ROWS, int COLS> float TMatrix<ROWS, COLS>::minor(int r, int c) const 
+//template <int R = ROWS, int C = COLS> typename std::enable_if<(R > 2) && (C > 2), float>::type
+//TMatrix<ROWS, COLS>::minor(int r, int c) const
+//{
+//    return this->submatrix(r, c).det();
+//
+//    //TMatrix<ROWS-1, COLS-1> submat = this->submatrix(r, c);
+//    //return submat.det();
+//}
+//
+
+/*
+ * cofactor()
+ */
+template <int ROWS, int COLS> float TMatrix<ROWS, COLS>::cofactor(int r, int c) const 
+{
+    return this->minor(r, c) * (((r+c) % 2 == 0) ? 1 : -1);
+    //return ((ROWS + COLS) % 2 == 0) ? this->minor(r, c) : -this->minor(r, c);
+}
+
+/*
+ * det()
+ * Compute determinant of this matrix
+ */
+//template <int R = ROWS, int C = COLS> typename std::enable_if<(R == 2) && (C == 2), float>::type
+//TMatrix<ROWS, COLS>::det(void) const
+//{
+//    return (this->data[0] * this->data[3]) - (this->data[1] * this->data[2]);
+//}
+
+template <int ROWS, int COLS> float TMatrix<ROWS, COLS>::det(void) const
+{
+    float det = 0.0;
+
+    for(int cc = 0; cc < COLS; ++cc)
+        det = det + this->data[this->rc_to_idx(0, cc)] * this->cofactor(0, cc);
+
+    return det;
+}
+
+
+/*
  * transpose()
  */
 template <int ROWS, int COLS> void TMatrix<ROWS, COLS>::transpose(void) 
@@ -279,8 +370,12 @@ template <int ROWS, int COLS> void TMatrix<ROWS, COLS>::transpose(void)
     }
 }
 
+
+
+
 /*
  * transposed()
+ * Return a copy of the transpose of this matrix
  */
 template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::transposed(void) const
 {
@@ -295,6 +390,32 @@ template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::transpose
     return out_mat;
 }
 
+
+/*
+ * inversed()
+ * Return a copy of the inverse of this matrix 
+ */
+template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::inversed(void) const
+{
+    TMatrix<ROWS, COLS> out_mat;
+
+    if(this->det() == 0.0)
+        return out_mat;
+
+    float cf = 0.0;
+    float inv_det = 1.0f / this->det();
+
+    for(int rr = 0; rr < ROWS; ++rr)
+    {
+        for(int cc = 0; cc < COLS; ++cc)
+        {
+            cf = this->cofactor(rr, cc);
+            out_mat(cc, rr) = cf * inv_det;
+        }
+    }
+
+    return out_mat;
+}
 
 
 /*
@@ -313,7 +434,6 @@ template <int ROWS, int COLS> std::string TMatrix<ROWS, COLS>::toString(void) co
             oss << std::setw(4) << std::left << this->data[this->rc_to_idx(r, c)] << " ";
         }
         oss << std::endl;
-
     }
 
     return oss.str();
@@ -322,7 +442,26 @@ template <int ROWS, int COLS> std::string TMatrix<ROWS, COLS>::toString(void) co
 
 
 // ================ IDENTITY ================ //
-//template <int ROWS, int COLS> TMatrix<ROWS, COLS> TMatrix<ROWS, COLS>::
+
+// Generate identity matrix
+template <typename T> T eye(void)
+{
+    //TMatrix<SIZE, SIZE> eye_mat;
+    T eye_mat;
+    if(eye_mat.shape()[0] != eye_mat.shape()[1])
+        throw std::range_error("eye matrix only defined when ROWS == COLS");
+
+    for(int ii = 0; ii < eye_mat.shape()[0]; ++ii)
+        eye_mat(ii, ii) = 1.0f;
+
+    return eye_mat;
+}
+
+// Generate ones matrix 
+template <typename T> T ones(void)
+{
+    return T(1.0);
+}
 
 
 using Mat2 = TMatrix<2, 2>;
@@ -330,7 +469,6 @@ using Mat3 = TMatrix<3, 3>;
 using Mat4 = TMatrix<4, 4>;
 
 
-// TODO: Try to inherit instead, since we can overload specialities like mutiply or identity
 
 
 

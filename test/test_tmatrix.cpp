@@ -180,8 +180,27 @@ TEST_CASE("test_mat4_tuple_mul", "matrix")
     REQUIRE(out_tuple == exp_tuple);
 }
 
-
 // ================ UTILS ================= // 
+TEST_CASE("test_mat_utils", "matrix")
+{
+    Mat2 mat2_test;
+
+    REQUIRE(mat2_test.rows() == 2);
+    REQUIRE(mat2_test.cols() == 2);
+    REQUIRE(mat2_test.shape() == std::array<int, 2>{2, 2});
+
+    Mat3 mat3_test;
+    REQUIRE(mat3_test.rows() == 3);
+    REQUIRE(mat3_test.cols() == 3);
+    REQUIRE(mat3_test.shape() == std::array<int, 2>{3, 3});
+
+    Mat4 mat4_test;
+    REQUIRE(mat4_test.rows() == 4);
+    REQUIRE(mat4_test.cols() == 4);
+    REQUIRE(mat4_test.shape() == std::array<int, 2>{4, 4});
+}
+
+// ================ MATRIX OPERATIONS ================ //
 TEST_CASE("test_submatrix_mat3", "matrix")
 {
     std::vector<float> mat_values = {
@@ -225,6 +244,45 @@ TEST_CASE("test_submatrix_mat4", "matrix")
 
     REQUIRE(sub_mat == exp_sub_mat);
 }
+
+//TEST_CASE("test_matrix_minor", "matrix")
+//{
+//    std::vector<float> mat_vals = {
+//        3,  5,  0,
+//        2, -1, -7,
+//        6, -1,  5
+//    };
+//    Mat3 a_mat(mat_vals);
+//    Mat2 b_mat = a_mat.submatrix(1, 0);
+//
+//    float exp_det = 25.0;
+//    float exp_minor = 25.0;
+//
+//    REQUIRE(equal(b_mat.det(), exp_det));
+//    REQUIRE(equal(a_mat.minor(1, 0), exp_minor));
+//}
+
+//TEST_CASE("test_matrix_cofactor", "matrix")
+//{
+//    std::vector<float> mat_vals = {
+//        3,  5,  0,
+//        2, -1, -7,
+//        6, -1,  5
+//    };
+//    Mat3 a_mat(mat_vals);
+//
+//    float exp_minor_00 = -12;
+//    float exp_cofactor_00 = -12;
+//
+//    REQUIRE(equal(a_mat.minor(0, 0), exp_minor_00));
+//    REQUIRE(equal(a_mat.cofactor(0, 0), exp_cofactor_00));
+//
+//    float exp_minor_10 = 25;
+//    float exp_cofactor_10 = -25;
+//
+//    REQUIRE(equal(a_mat.minor(1, 0), exp_minor_10));
+//    REQUIRE(equal(a_mat.cofactor(1, 0), exp_cofactor_10));
+//}
 
 // Return a copy of the transposed matrix, leaving original intact
 TEST_CASE("test_matrix_transposed", "matrix")
@@ -271,4 +329,56 @@ TEST_CASE("test_matrix_transpose", "matrix")
 
     test_mat.transpose();
     REQUIRE(test_mat == exp_mat);
+}
+
+
+
+// ================ IDENTITY ================ //
+TEST_CASE("test_eye", "matrix")
+{
+    CHECK_THROWS(eye<TMatrix<1, 2>>());
+}
+
+TEST_CASE("test_mat2_identity", "matrix")
+{
+    Mat2 eye_mat = eye<Mat2>();
+    Mat2 exp_mat(
+            std::vector<float>{
+            1.0, 0.0, 0.0, 1.0
+        }
+    );
+
+    REQUIRE(eye_mat.shape() == std::array<int, 2>{2, 2});
+    REQUIRE(eye_mat == exp_mat);
+}
+
+TEST_CASE("test_mat3_identity", "matrix")
+{
+    Mat3 eye_mat = eye<Mat3>();
+    Mat3 exp_mat(
+            std::vector<float>{
+            1.0, 0.0, 0.0, 
+            0.0, 1.0, 0.0,
+            0.0, 0.0, 1.0
+        }
+    );
+
+    REQUIRE(eye_mat.shape() == std::array<int, 2>{3, 3});
+    REQUIRE(eye_mat == exp_mat);
+}
+
+TEST_CASE("test_mat4_identity", "matrix")
+{
+    Mat4 eye_mat = eye<Mat4>();
+    Mat4 exp_mat(
+            std::vector<float>{
+            1.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0,
+        }
+    );
+
+    REQUIRE(eye_mat.shape() == std::array<int, 2>{4, 4});
+    REQUIRE(eye_mat == exp_mat);
 }
