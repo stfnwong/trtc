@@ -8,6 +8,7 @@
 
 #include <string>
 
+#include "Matrix.hpp"
 #include "Tuple.hpp"        // consider moving to a datastructures header later
 
 /*
@@ -18,10 +19,12 @@ struct Shape
 {
     public:
         int id;
+        Matrix transform;
 
     public:
         Shape();
         Shape(int i);
+        Shape(int i, const Matrix& t);
 
         std::string toString(void) const;
 };
@@ -39,6 +42,8 @@ struct Sphere : public Shape
         Sphere();
         Sphere(float r, const Tuple& c);
         Sphere(int i, float r, const Tuple& c);
+
+        void set_transform(const Matrix& t );
 
         std::string toString(void) const;
 };

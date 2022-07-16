@@ -53,7 +53,8 @@ $(TOOL_OBJECTS): $(OBJ_DIR)/%.o : $(TOOL_DIR)/%.cpp
 
 # ==== TEST TARGETS ==== #
 TESTS= test_matrix test_tuple test_color test_canvas test_projectile \
-	   test_transform test_ray test_intersection test_tmatrix
+	   test_transform test_ray test_intersection test_tmatrix \
+	   test_shape
 
 $(TESTS): $(TEST_OBJECTS) $(OBJECTS)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(OBJ_DIR)/$@.o\

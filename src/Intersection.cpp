@@ -53,12 +53,13 @@ std::string Intersection::toString(void) const
 std::vector<Intersection> Intersect(std::shared_ptr<const Sphere> shape, const Ray& ray)
 {
     // TODO : in this implementation the shape is always a unit sphere 
+    Ray r = ray_transform(ray, shape->transform.inverse());
     // centered at (0,0,0)
-    Tuple oc = ray.origin - shape->center;
+    Tuple oc = r.origin - shape->center;
     oc.toVector();
 
-    float a    = dot(ray.direction, ray.direction);
-    float b    = 2.0 * dot(ray.direction, oc);
+    float a    = dot(r.direction, r.direction);
+    float b    = 2.0 * dot(r.direction, oc);
     float c    = dot(oc, oc) - (shape->radius * shape->radius); // TODO: for the time being we are only testing spheres
     float disc = (b * b) - (4*a*c);
 

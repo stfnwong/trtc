@@ -25,6 +25,7 @@ class Matrix
         std::vector<float> data;
 
     private:
+        // NOTE: generic enough that it could just be a function in this scope?
         unsigned rc_to_pos(unsigned int r, unsigned int c) const;
 
     public:

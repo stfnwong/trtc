@@ -51,4 +51,10 @@ std::string Ray::toString(void) const
     return oss.str();
 }
 
-
+/*
+ * Transform a Ray
+ */
+Ray ray_transform(const Ray& ray, const Matrix& transform) 
+{
+     return Ray(transform * ray.origin, ray.direction);
+}
