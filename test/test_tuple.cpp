@@ -305,3 +305,24 @@ TEST_CASE("test_vector_cross", "infra")
     REQUIRE(v1.cross(v2) == create_vector(-1, 2, -1));
     REQUIRE(v2.cross(v1) == create_vector(1, -2, 1));
 }
+
+// Reflection 
+TEST_CASE("test_reflecting_vector_45_deg", "infra")
+{
+    Tuple v = create_vector(1, -1, 0);
+    Tuple n = create_vector(0, 1, 0);
+
+    Tuple r = reflect(v, n);
+
+    REQUIRE(r == create_vector(1, 1, 0));
+}
+
+TEST_CASE("test_reflecting_vector_slanted_surface", "infra")
+{
+    Tuple v = create_vector(1, -1, 0);
+    Tuple n = create_vector(sqrt(2.0)/2, sqrt(2.0)/2, 0.0);
+
+    Tuple r = reflect(v, n);
+
+    REQUIRE(r == create_vector(1, 0, 0));
+}

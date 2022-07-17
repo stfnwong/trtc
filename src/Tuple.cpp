@@ -325,3 +325,9 @@ Tuple cross(const Tuple& a, const Tuple& b)
 {
     return a.cross(b);
 }
+
+
+Tuple reflect(const Tuple& v, const Tuple& n)
+{
+    return v - n * 2.0 * dot(v, n);
+}

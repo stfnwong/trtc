@@ -84,5 +84,8 @@ Tuple create_point(float x, float y, float z);
 float dot(const Tuple& a, const Tuple& b);
 Tuple cross(const Tuple& a, const Tuple& b);
 
+// Reflect about a normal 
+Tuple reflect(const Tuple& v, const Tuple& n);
+
 
 #endif /*__TUPLE_HPP*/
