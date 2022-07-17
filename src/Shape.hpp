@@ -44,6 +44,7 @@ struct Sphere : public Shape
         Sphere(int i, float r, const Tuple& c);
 
         void set_transform(const Matrix& t );
+        Tuple normal_at(const Tuple& p);
 
         std::string toString(void) const;
 };

@@ -40,6 +40,16 @@ void Sphere::set_transform(const Matrix& t)
     this->transform = t;
 }
 
+Tuple Sphere::normal_at(const Tuple& p)
+{
+    Tuple object_point = this->transform.inverse() * p;
+    Tuple object_normal = object_point - create_point(0, 0, 0);
+    Tuple world_normal = this->transform.inverse().transpose() * object_normal;
+    world_normal.w = 0;
+
+    return world_normal.norm();
+}
+
 std::string Sphere::toString(void) const
 {
     std::ostringstream oss;
@@ -53,3 +63,10 @@ std::string Sphere::toString(void) const
     return oss.str();
 }
 
+// world_normal = transpose(inverse(transform)) * object_normal
+//
+// Techically we want to do submatrix(transform, 3, 3) first, then multiplying
+// by the inverse and transpose.
+//
+// The inverse transpose matrix does not preserve the length of the vector, so if
+// you provide a vector of length 1 you may not get a normalized vector back.
