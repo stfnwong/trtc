@@ -14,8 +14,35 @@
 #include "Shape.hpp"
 
 
+TEST_CASE("test_sphere_init", "sphere")
+{
+    Sphere s;
 
-TEST_CASE("test_sphere_normal", "sphere_normal")
+    // Test that the defaults are as expected.
+    REQUIRE(s.radius == 1.0);
+    REQUIRE(s.center == create_point(0, 0, 0));
+    REQUIRE(s.mat == Material());
+}
+
+TEST_CASE("test_sphere_set_material", "sphere")
+{
+    Sphere s;
+
+    REQUIRE(s.mat == Material());
+    Material new_mat = Material(
+            Color(1, 1, 0),
+            1.0,
+            0.4,
+            0.3,
+            2.2
+    );
+    s.set_material(new_mat);
+
+    REQUIRE(s.mat == new_mat);
+}
+
+
+TEST_CASE("test_sphere_normal", "sphere")
 {
     Sphere s;
     Tuple n;
@@ -43,7 +70,7 @@ TEST_CASE("test_sphere_normal", "sphere_normal")
 
 }
 
-TEST_CASE("test_translated_sphere_normal", "sphere_normal")
+TEST_CASE("test_translated_sphere_normal", "sphere")
 {
     Tuple n;
     Sphere s;

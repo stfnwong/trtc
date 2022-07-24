@@ -28,17 +28,36 @@ std::string Shape::toString(void) const
 
 
 // ======== SPHERE ======== //
-Sphere::Sphere() : Shape(std::rand()), radius(1.0), center(create_point(0, 0, 0)) {}
+// TODO: should the id just be an incrementing integer?
+Sphere::Sphere() : 
+    Shape(std::rand()), 
+    radius(1.0), 
+    center(create_point(0, 0, 0)) ,
+    mat(Material())
+{}
 //Sphere::Sphere() : id(std::rand()), radius(1.0), center(create_point(0, 0, 0)) {}
 
 Sphere::Sphere(float r, const Tuple& c) : Shape{ std::rand() }, radius(r), center(c) {}
 
 Sphere::Sphere(int i, float r, const Tuple& c) : Shape{ i }, radius(r), center(c) {}
 
+Sphere::Sphere(int i, float r, const Tuple& c, const Material& mat) : 
+    Shape{ i }, 
+    radius(r), 
+    center(c),
+    mat(mat)
+{}
+
 void Sphere::set_transform(const Matrix& t)
 {
     this->transform = t;
 }
+
+void Sphere::set_material(const Material& m)
+{
+    this->mat = m;
+}
+
 
 Tuple Sphere::normal_at(const Tuple& p)
 {
