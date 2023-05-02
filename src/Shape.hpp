@@ -18,9 +18,8 @@
  */
 struct Shape
 {
-    public:
-        int id;
-        Matrix transform;
+    int id;
+    Matrix transform;
 
     public:
         Shape();
