@@ -319,7 +319,7 @@ TEST_CASE("test_reflecting_vector_45_deg", "infra")
 
 TEST_CASE("test_reflecting_vector_slanted_surface", "infra")
 {
-    Tuple v = create_vector(1, -1, 0);
+    Tuple v = create_vector(0, -1, 0);
     Tuple n = create_vector(sqrt(2.0)/2, sqrt(2.0)/2, 0.0);
 
     Tuple r = reflect(v, n);

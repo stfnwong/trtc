@@ -377,7 +377,7 @@ TEST_CASE("test_scale_ray", "transform_ray")
     Ray out_ray = ray_transform(test_ray, scaling);
 
     REQUIRE(out_ray.origin == create_point(2, 6, 12));
-    REQUIRE(out_ray.direction == create_vector(0, 1, 0));
+    REQUIRE(out_ray.direction == create_vector(0, 3, 0));
 }
 
 
