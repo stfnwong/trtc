@@ -7,3 +7,6 @@
 
 # Ignore tags
 tags
+
+# Ignore lsp cacjhe
+.ccls-cache/
