@@ -32,6 +32,7 @@ Matrix scale(float x, float y, float z)
     s(0,0) = x;
     s(1,1) = y;
     s(2,2) = z;
+    s(3,3) = 1.0f;
 
     return s;
 }

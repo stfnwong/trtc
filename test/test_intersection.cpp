@@ -80,6 +80,22 @@ TEST_CASE("test_ray_miss_sphere", "ray")
 }
 
 
+TEST_CASE("test_ray_originates_inside_sphere", "intersection")
+{
+    Tuple o = create_point(0, 0, 0);
+    Tuple d = create_vector(0, 0, 1);
+
+    Ray ray(o, d);
+    auto sphere = std::make_shared<Sphere>();
+    REQUIRE(sphere->center == create_point(0,0,0));
+
+    std::vector<Intersection> intersections = Intersect(sphere, ray);
+    REQUIRE(intersections.size() == 2);
+    REQUIRE(intersections[0].t == -1.0);
+    REQUIRE(intersections[1].t == 1.0);
+}
+
+
 //TEST_CASE("test_intersect_ray_sphere_with_new_structure", "intersection")
 //{
 //    Tuple o = create_point(0, 2, -5);

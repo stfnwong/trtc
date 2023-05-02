@@ -56,5 +56,5 @@ std::string Ray::toString(void) const
  */
 Ray ray_transform(const Ray& ray, const Matrix& transform) 
 {
-     return Ray(transform * ray.origin, ray.direction);
+     return Ray(transform * ray.origin, transform * ray.direction);
 }
