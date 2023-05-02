@@ -51,4 +51,6 @@ Matrix shear(float xy, float xz, float yx, float yz, float zx, float zy);
 
 // TODO: Chain ...
 
+
+
 #endif /*__TRANSFORM_HPP*/

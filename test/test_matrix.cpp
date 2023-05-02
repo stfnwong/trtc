@@ -86,8 +86,6 @@ TEST_CASE("test_matrix_init", "matrix")
     REQUIRE(mat.nrows() == 4);
     REQUIRE(mat.ncols() == 4);
 
-    std::cout << mat.toString() << std::endl;
-
     for(unsigned int r = 0; r < mat.nrows(); ++r)
     {
         for(unsigned c = 0; c < mat.ncols(); ++c)

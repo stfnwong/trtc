@@ -278,6 +278,8 @@ void Tuple::toVector(void)
     this->w = 0.0;
 }
 
+// TODO: versions of this that return a new vector or point
+
 
 /*
  * toString()
@@ -322,4 +324,10 @@ float dot(const Tuple& a, const Tuple& b)
 Tuple cross(const Tuple& a, const Tuple& b)
 {
     return a.cross(b);
+}
+
+
+Tuple reflect(const Tuple& v, const Tuple& n)
+{
+    return v - n * 2.0 * dot(v, n);
 }

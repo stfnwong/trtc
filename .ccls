@@ -1,0 +1,7 @@
+clang
+%hpp -x c++-header
+-Wall
+-Wextra
+-Isrc
+%cpp -std=c++17
+%c -std=c11

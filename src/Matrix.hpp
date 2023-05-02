@@ -11,6 +11,8 @@
 
 #include "Tuple.hpp"
 
+// TODO: do a template version as well...
+
 /*
  * A Matrix. Because this is a raytracer we only need to implement 2d
  * matricies 
@@ -23,6 +25,7 @@ class Matrix
         std::vector<float> data;
 
     private:
+        // NOTE: generic enough that it could just be a function in this scope?
         unsigned rc_to_pos(unsigned int r, unsigned int c) const;
 
     public:
@@ -32,7 +35,7 @@ class Matrix
 
         // def need copy assignment 
         Matrix& operator=(const Matrix& that);
-        // TODO: also need move assignment
+        // TODO: also need move assignment?
 
         // comparison
         bool operator==(const Matrix& that) const;

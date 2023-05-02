@@ -245,9 +245,58 @@ TEST_CASE("test_vector_dot", "infra")
 
     float result = v1.dot(v2);
 
-    REQUIRE(result == exp_result);
+    REQUIRE(equal(result, exp_result));
+
+    // the standalone dot() method does the same thing 
+    REQUIRE(equal(dot(v1, v2), exp_result));
 }
 
+TEST_CASE("test_vector_dot_2", "infra")
+{
+    Tuple a = create_vector(0, 1, -5);
+    Tuple b = create_vector(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+// These are all just combinations of dot products on points and vectors
+TEST_CASE("test_vector_dot_3", "infra")
+{
+    Tuple a = create_point(0, 1, -5);
+    Tuple b = create_point(0, 0, 1);
+
+    float exp_result = -4.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+TEST_CASE("test_vector_dot_4", "infra")
+{
+    Tuple a = create_point(0, 1, -5);
+    Tuple b = create_vector(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+TEST_CASE("test_vector_dot_5", "infra")
+{
+    Tuple a = create_vector(0, 1, -5);
+    Tuple b = create_point(0, 0, 1);
+
+    float exp_result = -5.0;
+    float result = dot(a, b);
+
+    REQUIRE(equal(result, exp_result));
+}
+
+// Tuple cross product
 TEST_CASE("test_vector_cross", "infra")
 {
     Tuple v1 = create_vector(1, 2, 3);
@@ -255,4 +304,25 @@ TEST_CASE("test_vector_cross", "infra")
 
     REQUIRE(v1.cross(v2) == create_vector(-1, 2, -1));
     REQUIRE(v2.cross(v1) == create_vector(1, -2, 1));
+}
+
+// Reflection 
+TEST_CASE("test_reflecting_vector_45_deg", "infra")
+{
+    Tuple v = create_vector(1, -1, 0);
+    Tuple n = create_vector(0, 1, 0);
+
+    Tuple r = reflect(v, n);
+
+    REQUIRE(r == create_vector(1, 1, 0));
+}
+
+TEST_CASE("test_reflecting_vector_slanted_surface", "infra")
+{
+    Tuple v = create_vector(0, -1, 0);
+    Tuple n = create_vector(sqrt(2.0)/2, sqrt(2.0)/2, 0.0);
+
+    Tuple r = reflect(v, n);
+
+    REQUIRE(r == create_vector(1, 0, 0));
 }

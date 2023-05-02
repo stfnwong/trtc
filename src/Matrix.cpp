@@ -31,7 +31,7 @@ Matrix::Matrix(unsigned int r, unsigned int c, const std::vector<float>& vals) :
     if(this->rows == 0 || this->cols == 0)
         throw std::out_of_range("0-size given in Matrix constructor");
     if(this->size() > vals.size())
-        throw std::out_of_range("Not enough value provided. Need at least " + std::to_string(this->size()) 
+        throw std::out_of_range("Not enough values provided. Need at least " + std::to_string(this->size()) 
                 + ", got " + std::to_string(vals.size()));
     this->data = vals;
 }

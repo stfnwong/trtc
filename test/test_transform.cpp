@@ -9,6 +9,9 @@
 #include <iostream> 
 #include <vector>
 
+#include "Ray.hpp"
+#include "Shape.hpp"
+#include "Tuple.hpp"
 #include "Transform.hpp"
 
 
@@ -352,3 +355,52 @@ TEST_CASE("test_matrix_chain_composite", "matrix")
 
 // TODO: one more test for a template function that performs this multiply
 // TODO: how to reverse the args order?
+
+
+// ================ RAY TRANSLATION ================= // 
+TEST_CASE("test_translate_ray", "transform_ray")
+{
+    Ray test_ray(create_point(1, 2, 3), create_vector(0, 1, 0));
+
+    Matrix translation = translate(3, 4, 5);
+    Ray out_ray = ray_transform(test_ray, translation);
+
+    REQUIRE(out_ray.origin == create_point(4, 6, 8));
+    REQUIRE(out_ray.direction == create_vector(0, 1, 0));
+}
+
+TEST_CASE("test_scale_ray", "transform_ray")
+{
+    Ray test_ray(create_point(1, 2, 3), create_vector(0, 1, 0));
+
+    Matrix scaling = scale(2, 3, 4);
+    Ray out_ray = ray_transform(test_ray, scaling);
+
+    REQUIRE(out_ray.origin == create_point(2, 6, 12));
+    REQUIRE(out_ray.direction == create_vector(0, 3, 0));
+}
+
+
+// ================ SPHERE TRANSLATION ================= // 
+// TODO: this will probably turn into a more generic Shape translation
+TEST_CASE("test_sphere_default_transformation", "transform_shape")
+{
+    // In the book we seem to be just testing that there is such a member 
+    // (which is trivially true because we inherit from Shape).
+    Sphere test_sphere;
+
+    REQUIRE(test_sphere.transform ==  eye(4));
+}
+
+TEST_CASE("test_sphere_set_transform", "transform_sphere")
+{
+    // Again this is sort of a perfunctory test from the book...
+    Sphere test_sphere;
+
+    REQUIRE(test_sphere.transform ==  eye(4));
+
+    Matrix new_transform = translate(2, 3, 4);
+    test_sphere.set_transform(new_transform);
+
+    REQUIRE(test_sphere.transform == translate(2, 3, 4));
+}

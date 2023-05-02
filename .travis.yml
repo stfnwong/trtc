@@ -24,3 +24,4 @@ script:
     - ./bin/test/test_projectile
     - ./bin/test/test_matrix
     - ./bin/test/test_transform
+    - ./bin/test/test_ray

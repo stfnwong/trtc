@@ -8,5 +8,8 @@
 # Ignore tags
 tags
 
-# Ignore lsp cacjhe
+# Ignore lsp cache
 .ccls-cache/
+
+# Ignore notes (anything ending in *_notes)
+*_notes
