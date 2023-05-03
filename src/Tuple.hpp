@@ -87,5 +87,8 @@ Tuple cross(const Tuple& a, const Tuple& b);
 // Reflect about a normal 
 Tuple reflect(const Tuple& v, const Tuple& n);
 
+// Normalize an arbitrary Tuple or Tuple expression
+Tuple normalize(const Tuple& t);
+
 
 #endif /*__TUPLE_HPP*/

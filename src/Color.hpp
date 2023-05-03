@@ -44,7 +44,7 @@ struct Color
         Color operator-(float c) const;
 
         Color operator*(const Color& that) const;
-        Color operator*(float) const;
+        Color operator*(float c) const;
 
         // Assignment
         Color& operator=(const Color& that);

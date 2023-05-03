@@ -331,3 +331,14 @@ Tuple reflect(const Tuple& v, const Tuple& n)
 {
     return v - n * 2.0 * dot(v, n);
 }
+
+Tuple normalize(const Tuple& t)
+{
+    float len = t.mag();
+    return Tuple(
+            t.x / len,
+            t.y / len,
+            t.z / len,
+            t.w
+    );
+}
